@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,5 +17,14 @@ namespace Exam_Portal.Models
         public int Marks { get; set; }
         public int PassingMarks { get; set; }
         public string Language { get; set; }
+
+        [ForeignKey("Faculty_id")]
+        public User User { get; set; }
+
+        public ICollection<Question> Questions { get; set; }
+
+        public ICollection<AssignedTest> AssignedTests { get; set; }
+
+        public ICollection<TotalResult> TotalResults { get; set; }
     }
 }

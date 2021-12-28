@@ -21,5 +21,13 @@ namespace Exam_Portal.Models
         public int Semester { get; set; }
         public string Division { get; set; }
         public string DOB { get; set; }
+
+        public ICollection<Test> Tests { get; set; }
+
+        public ICollection<Group> Groups { get; set; }
+
+        public ICollection<QuestionResult> QuestionResults { get; set; }
+
+        public ICollection<TotalResult> TotalResults { get; set; }
     }
 }

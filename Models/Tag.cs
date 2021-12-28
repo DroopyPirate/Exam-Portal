@@ -9,5 +9,7 @@ namespace Exam_Portal.Models
     {
         public int Id { get; set; }
         public string Tag_name { get; set; }
+
+        public ICollection<Question> Questions { get; set; }
     }
 }
