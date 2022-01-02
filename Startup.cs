@@ -2,6 +2,7 @@ using Exam_Portal.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,13 @@ namespace Exam_Portal
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseMySQL(Configuration.GetConnectionString("ExamPortalConnection")));
 
+            services.AddIdentity<ApplicationUser, ApplicationRole>().AddEntityFrameworkStores<AppDbContext>();
+
+    //        services
+    //.AddIdentity<ApplicationUser, ApplicationRole>()
+    //.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+    //.AddDefaultTokenProviders();
+
             services.AddControllersWithViews();
         }
 
@@ -46,6 +54,8 @@ namespace Exam_Portal
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 
