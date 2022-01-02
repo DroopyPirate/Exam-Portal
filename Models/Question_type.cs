@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Exam_Portal.Models
 {
-    public class Tag
+    public class Question_type
     {
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
-        public string Tag_name { get; set; }
+        public bool question_type { get; set; }
 
 
 
