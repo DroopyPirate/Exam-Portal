@@ -7,23 +7,21 @@ using System.Threading.Tasks;
 
 namespace Exam_Portal.Models
 {
-    public class AssignedTest
+    public class DescriptiveAnswer
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public int Group_id { get; set; }
+        public int Question_id { get; set; }
 
         [Required]
-        public int Test_id { get; set; }
+        [DataType(DataType.Text)]
+        public string Answer { get; set; }
 
 
 
-        [ForeignKey("Group_id")]
-        public Group Group { get; set; }
-
-        [ForeignKey("Test_id")]
-        public Test Test { get; set; }
+        [ForeignKey("Question_id")]
+        public Question Question { get; set; }
     }
 }

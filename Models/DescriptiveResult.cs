@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Exam_Portal.Models
 {
-    public class QuestionResult
+    public class DescriptiveResult
     {
         [Key]
         public int Id { get; set; }
@@ -19,13 +19,9 @@ namespace Exam_Portal.Models
         public int Question_id { get; set; }
 
         [Required]
-        public int Option_id { get; set; }
+        public string User_answer { get; set; }
 
-        public bool Is_right { get; set; }
-
-        [DataType(DataType.Time)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
-        public string Answer_time { get; set; }
+        public int Marks { get; set; }
 
 
 
@@ -34,8 +30,5 @@ namespace Exam_Portal.Models
 
         [ForeignKey("Question_id")]
         public Question Question { get; set; }
-
-        [ForeignKey("Option_id")]
-        public Option Option { get; set; }
     }
 }
