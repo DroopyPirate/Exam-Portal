@@ -1,5 +1,6 @@
 ﻿using Exam_Portal.Models;
 using Exam_Portal.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -51,11 +52,6 @@ namespace Exam_Portal.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
 
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 

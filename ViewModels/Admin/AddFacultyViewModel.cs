@@ -13,13 +13,6 @@ namespace Exam_Portal.ViewModels
         [Required]
         public RoleEnum Role { get; set; }
 
-        //public List<SelectListItem> RoleList { get; } = new List<SelectListItem>
-        //{
-        //    new SelectListItem { Value = "Admin", Text = "Admin" },
-        //    new SelectListItem { Value = "Faculty", Text = "Faculty" },
-        //    new SelectListItem { Value = "Student", Text = "Student"  },
-        //};
-
         [Required]
         [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "Invalid Email format")]
