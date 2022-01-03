@@ -1,5 +1,6 @@
 ﻿using Exam_Portal.Models;
 using Exam_Portal.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,28 +10,33 @@ using System.Threading.Tasks;
 
 namespace Exam_Portal.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
-        public AdminController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AdminController(UserManager<ApplicationUser> userManager,
+                               SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            return View("AddFaculty");
+            return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult AddFaculty()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddFaculty(AddFacultyViewModel model)
         {
@@ -52,7 +58,9 @@ namespace Exam_Portal.Controllers
 
                 var result = await userManager.CreateAsync(user, model.Password);
 
-                if(result.Succeeded)
+                var role_result = await userManager.AddToRoleAsync(user, model.Role.ToString());
+
+                if(result.Succeeded && role_result.Succeeded)
                 {
                     return View();
                 }
