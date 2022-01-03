@@ -13,8 +13,8 @@ namespace Exam_Portal.Models
         //[Key]
         //public int Id_ { get; set; }
 
-        [Required]
-        public int Role { get; set; }
+        //[Required]
+        //public int Role { get; set; }
 
         //[Required]
         //[DataType(DataType.Text)]
@@ -51,13 +51,13 @@ namespace Exam_Portal.Models
         //[EmailAddress(ErrorMessage = "Invalid Email format")]
         //public string Email { get; set; }
 
-        [Required]
+        //[Required]
         public string Branch { get; set; }
 
-        [Required]
+        //[Required]
         public int Semester { get; set; }
 
-        [Required]
+        //[Required]
         public string Division { get; set; }
 
         [Required]

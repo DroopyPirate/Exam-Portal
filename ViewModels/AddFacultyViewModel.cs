@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Exam_Portal.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,7 +11,14 @@ namespace Exam_Portal.ViewModels
     public class AddFacultyViewModel
     {
         [Required]
-        public int  Role { get; set; }
+        public RoleEnum Role { get; set; }
+
+        //public List<SelectListItem> RoleList { get; } = new List<SelectListItem>
+        //{
+        //    new SelectListItem { Value = "Admin", Text = "Admin" },
+        //    new SelectListItem { Value = "Faculty", Text = "Faculty" },
+        //    new SelectListItem { Value = "Student", Text = "Student"  },
+        //};
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -35,20 +44,20 @@ namespace Exam_Portal.ViewModels
         [Required]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^[6-9]\d{9}$", ErrorMessage = "Not a valid phone number")]
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [Required, MaxLength(70)]
         [DataType(DataType.Text)]
         public string Address { get; set; }
 
         [Required]
-        public string Branch { get; set; }
+        public BranchEnum Branch { get; set; }
 
         //[Required]
         //public int Semester { get; set; }
 
-        [Required]
-        public string Division { get; set; }
+        //[Required]
+        //public string Division { get; set; }
 
         [Required]
         [DataType(DataType.Date)]

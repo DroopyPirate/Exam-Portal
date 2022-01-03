@@ -16,8 +16,4 @@
     <PackageReference Include="MySqlConnector" Version="2.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Account\" />
-  </ItemGroup>
-
 </Project>
