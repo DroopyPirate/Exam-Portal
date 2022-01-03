@@ -22,7 +22,7 @@ namespace Exam_Portal.Controllers
 
         public IActionResult Index()
         {
-            return View("AddFaculty");
+            return View();
         }
 
         [HttpGet]

@@ -45,7 +45,7 @@ namespace Exam_Portal.Controllers
 
                 if(result.Succeeded)
                 {
-                    return RedirectToAction("AddFaculty", "Admin");
+                    return RedirectToAction("Index", "Admin");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
