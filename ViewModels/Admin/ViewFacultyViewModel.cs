@@ -1,4 +1,4 @@
-﻿using Exam_Portal.Models;
+using Exam_Portal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
