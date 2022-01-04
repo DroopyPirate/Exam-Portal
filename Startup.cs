@@ -38,7 +38,7 @@ namespace Exam_Portal
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
+               options.Filters.Add(new AuthorizeFilter(policy));
             }).AddXmlSerializerFormatters();
         }
 
