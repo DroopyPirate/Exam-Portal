@@ -10,7 +10,7 @@ namespace Exam_Portal.ViewModels
 {
     public class AddFacultyViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please select the role.")]
         public RoleEnum Role { get; set; }
 
         [Required]
