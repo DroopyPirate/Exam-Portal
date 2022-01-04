@@ -1,17 +1,16 @@
-﻿using Exam_Portal.Enums;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Exam_Portal.ViewModels
+namespace Exam_Portal.ViewModels.Admin
 {
-    public class AddFacultyViewModel
+    public class FacultyDetailsViewModel
     {
-        [Required(ErrorMessage = "Please select the role.")]
-        public RoleEnum Role { get; set; }
+        public string Role { get; set; }
+
+        public int Id { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -22,7 +21,7 @@ namespace Exam_Portal.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required,MaxLength(30)]
+        [Required, MaxLength(30)]
         [DataType(DataType.Text)]
         public string Name { get; set; }
 
@@ -30,7 +29,7 @@ namespace Exam_Portal.ViewModels
         [DataType(DataType.Text)]
         public string MiddleName { get; set; }
 
-        [Required,MaxLength(30)]
+        [Required, MaxLength(30)]
         [DataType(DataType.Text)]
         public string LastName { get; set; }
 
@@ -44,7 +43,7 @@ namespace Exam_Portal.ViewModels
         public string Address { get; set; }
 
         [Required]
-        public BranchEnum Branch { get; set; }
+        public string Branch { get; set; }
 
         //[Required]
         //public int Semester { get; set; }
