@@ -1,24 +1,43 @@
-﻿@{
-    ViewData["Title"] = "Add Faculty";
+@model Exam_Portal.ViewModels.Admin.ViewFacultyViewModel
+@{
+    ViewData["Title"] = "View Faculty";
 }
 
-<form method="post" asp-action="ViewFaculty" class="mt-3">
-    <div>
-        <table class="table-hover">
-            <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Branch</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.User.Any())
+        {
+            foreach (var user in Model.User)
+            {
                 <tr>
-                    <th scope="col"><label asp-for="Name" class="font-weight-bold"></label></th>
-                    <th scope="col"><label asp-for="Branch" class="font-weight-bold"></label></th>
-                    <th scope="col"><label asp-for="Actions" class="font-weight-bold"></label></th>
-                </tr>  
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Hello</td>
-                    <td>Hii</td>
-                    <td></td>
+                    <td>@user.Name @user.LastName</td>
+                    <td>@user.Branch</td>
+                    <td>
+                        <form asp-controller="Admin" asp-action="FacultyDetails" asp-route-id="@user.Id" method="post">
+                            <button type="submit" class="btn btn-primary">View</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Admin" asp-action="EditFaculty" asp-route-id="@user.Id">
+                            Edit
+                        </a>
+                    </td>
+                    <td>
+                        <form asp-controller="Admin" asp-action="DeleteFaculty" asp-route-id="@user.Id" method="post">
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </form>
+                    </td>
                 </tr>
-            </tbody>
-
-        </table>
-    </div>
+            }
+        }
+    </tbody>
+</table>

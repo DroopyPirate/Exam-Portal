@@ -1,5 +1,6 @@
 ﻿using Exam_Portal.Models;
 using Exam_Portal.ViewModels;
+using Exam_Portal.ViewModels.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,15 @@ namespace Exam_Portal.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly RoleManager<ApplicationRole> roleManager;
 
         public AdminController(UserManager<ApplicationUser> userManager,
-                               SignInManager<ApplicationUser> signInManager)
+                               SignInManager<ApplicationUser> signInManager,
+                               RoleManager<ApplicationRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
         }
 
         [Authorize(Roles = "Admin")]
@@ -62,13 +66,128 @@ namespace Exam_Portal.Controllers
 
                 if(result.Succeeded && role_result.Succeeded)
                 {
-                    return View();
+                    return RedirectToAction("AddFaculty");
                 }
 
                 foreach(var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewFaculty()
+        {
+            //var role = await roleManager.FindByIdAsync("1");
+
+            var model = new ViewFacultyViewModel();
+
+            foreach(var user in userManager.Users.ToList())
+            {
+                if(await userManager.IsInRoleAsync(user, "Faculty"))
+                {
+                    model.User.Add(user);
+                }
+            }
+
+            return View(model);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> DeleteFaculty(int id)
+        {
+            var user = await userManager.FindByIdAsync(id.ToString());
+
+            if(user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {id} cannot be found";
+                return View("NotFound"); //This view dosent existy right now
+            }
+            else
+            {
+                var result = await userManager.DeleteAsync(user);
+
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("ViewFaculty");
+                }
+
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View("ViewFaculty");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FacultyDetails(int id)
+        {
+            var user = await userManager.FindByIdAsync(id.ToString());
+
+            var model = new FacultyDetailsViewModel();
+
+            model.Email = user.Email;
+            model.Name = user.Name;
+            model.MiddleName = user.MiddleName;
+            model.LastName = user.LastName;
+            model.PhoneNumber = user.PhoneNumber;
+            model.Address = user.Address;
+            model.Branch = user.Branch;
+            model.DOB = user.DOB;
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditFaculty(int id)
+        {
+            var user = await userManager.FindByIdAsync(id.ToString());
+
+            var model = new FacultyDetailsViewModel();
+
+            model.Id = user.Id;
+            model.Email = user.Email;
+            model.Name = user.Name;
+            model.MiddleName = user.MiddleName;
+            model.LastName = user.LastName;
+            model.PhoneNumber = user.PhoneNumber;
+            model.Address = user.Address;
+            model.Branch = user.Branch;
+            model.DOB = user.DOB;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditFaculty(FacultyDetailsViewModel model)
+        {
+            var user = await userManager.FindByIdAsync(model.Id.ToString());
+
+            user.Email = model.Email;
+            user.UserName = model.Email;
+            user.Name = model.Name;
+            user.MiddleName = model.MiddleName;
+            user.LastName = model.LastName;
+            model.PhoneNumber = model.PhoneNumber;
+            model.Address = model.Address;
+            model.Branch = model.Branch;
+            user.DOB = model.DOB;
+
+            var result = await userManager.UpdateAsync(user);
+
+            if(result.Succeeded)
+            {
+                return RedirectToAction("ViewFaculty");
+            }
+            
+            foreach(var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
             }
 
             return View(model);
