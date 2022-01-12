@@ -1,0 +1,53 @@
+﻿@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "Add Student";
+}
+
+<form method="post" asp-controller="Admin" asp-action="AddStudentExcel" enctype="multipart/form-data">
+
+    <input type="file" name="File" />
+    <button type="submit">Upload</button>
+
+</form>
+
+@if (Model.Any())
+{
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Password</th>
+                <th scope="col">Name</th>
+                <th scope="col">Middle Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Address</th>
+                <th scope="col">Branch</th>
+                <th scope="col">Semester</th>
+                <th scope="col">Division</th>
+                <th scope="col">DOB</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@user.Password</td>
+                    <td>@user.Name</td>
+                    <td>@user.MiddleName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.Address</td>
+                    <td>@user.Branch</td>
+                    <td>@user.Semester</td>
+                    <td>@user.Division</td>
+                    <td>@user.DOB</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
