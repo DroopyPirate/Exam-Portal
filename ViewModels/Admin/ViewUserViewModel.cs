@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Exam_Portal.ViewModels.Admin
 {
-    public class ViewFacultyViewModel
+    public class ViewUserViewModel
     {
-        public ViewFacultyViewModel()
+        public ViewUserViewModel()
         {
             User = new List<ApplicationUser>();
         }

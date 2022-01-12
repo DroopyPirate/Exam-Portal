@@ -43,16 +43,99 @@ namespace Exam_Portal.Controllers
             if(ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-
+                var user = await userManager.FindByEmailAsync(model.Email);
+                var role = await userManager.GetRolesAsync(user);
+                
                 if(result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Admin");
+                    if(!user.InitialLogin)
+                    {
+                        foreach (string _role in role)
+                        {
+                            if (_role == "Admin")
+                            {
+                                return RedirectToAction("Index", "Admin");
+                            }
+                            else if (_role == "Faculty")
+                            {
+                                return RedirectToAction("Index", "Faculty");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "Student");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return View("ChangePassword");
+                    }
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
 
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> LogOut()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = await userManager.GetUserAsync(User);
+
+                user.Password = model.NewPassword;
+                user.InitialLogin = false;
+
+                await userManager.UpdateAsync(user);
+                var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View();
+                }
+
+                var role = await userManager.GetRolesAsync(user);
+
+                foreach (string _role in role)
+                {
+                    if (_role == "Admin")
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else if (_role == "Faculty")
+                    {
+                        return RedirectToAction("Index", "Faculty");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Student");
+                    }
+                }
+            }
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

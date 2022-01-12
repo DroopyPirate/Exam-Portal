@@ -1,6 +1,6 @@
 ﻿@model Exam_Portal.ViewModels.Admin.FacultyDetailsViewModel
 @{
-    ViewData["Title"] = "Faculty Details";
+    ViewData["Title"] = "Edit Faculty";
 }
 <form asp-controller="Admin" asp-action="EditFaculty" method="post" class="mt-3">
 
@@ -58,14 +58,6 @@
         </div>
     </div>
 
-    <!--<div class="form-group row">
-        <label asp-for="Division" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <select asp-for="" class="custom-select mr-sm-2"
-                    asp-items=""></select>
-        </div>
-    </div>-->
-
     <div class="form-group row">
         <label asp-for="DOB" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
@@ -73,7 +65,13 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row" style="display:inline-block;">
+        <div class="col-sm-10">
+            <a class="btn btn-primary" asp-controller="Admin" asp-action="ViewFaculty">Back</a>
+        </div>
+    </div>
+
+    <div class="form-group row" style="display:inline-block;">
         <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Update</button>
         </div>

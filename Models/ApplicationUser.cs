@@ -64,6 +64,8 @@ namespace Exam_Portal.Models
         [DataType(DataType.Date)]
         public string DOB { get; set; }
 
+        public bool InitialLogin { get; set; } = true;
+
 
 
         public ICollection<Test> Tests { get; set; }

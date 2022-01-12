@@ -10,8 +10,11 @@ namespace Exam_Portal.ViewModels
 {
     public class AddFacultyViewModel
     {
+        //[Required(ErrorMessage = "Please select the role.")]
+        //public RoleEnum Role { get; set; }
+
         [Required(ErrorMessage = "Please select the role.")]
-        public RoleEnum Role { get; set; }
+        public string Role { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -47,7 +50,7 @@ namespace Exam_Portal.ViewModels
         public BranchEnum Branch { get; set; }
 
         //[Required]
-        //public int Semester { get; set; }
+        //public Nullable<int> Semester { get; set; }
 
         //[Required]
         //public string Division { get; set; }

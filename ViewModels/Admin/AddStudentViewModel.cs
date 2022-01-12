@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace Exam_Portal.ViewModels.Admin
 {
-    public class FacultyDetailsViewModel
+    public class AddStudentViewModel
     {
-        public string Role { get; set; }
+        //[Required(ErrorMessage = "Please select the role.")]
+        //public RoleEnum Role { get; set; }
 
-        public int Id { get; set; }
+        [Required(ErrorMessage = "Please select the role.")]
+        public string Role { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -46,11 +48,11 @@ namespace Exam_Portal.ViewModels.Admin
         [Required]
         public BranchEnum Branch { get; set; }
 
-        //[Required]
-        //public int Semester { get; set; }
+        [Required]
+        public int Semester { get; set; }
 
-        //[Required]
-        //public string Division { get; set; }
+        [Required]
+        public string Division { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
