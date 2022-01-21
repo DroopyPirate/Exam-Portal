@@ -201,7 +201,7 @@ namespace Exam_Portal.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewFaculty()
         {
-            var model = await facultyRepository.GetAllFaculty();
+            var model = await facultyRepository.GetAllFaculty("Faculty");
             return View(model);
         }
 

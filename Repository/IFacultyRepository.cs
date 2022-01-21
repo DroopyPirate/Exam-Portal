@@ -11,7 +11,7 @@ namespace Exam_Portal.Repository
     public interface IFacultyRepository
     {
         Task<IdentityResult> CreateFaculty(AddFacultyViewModel model);
-        Task<ViewUserViewModel> GetAllFaculty();
+        Task<ViewUserViewModel> GetAllFaculty(string role);
         Task<FacultyDetailsViewModel> GetFacultyDetails(int id);
         Task<IdentityResult> DeleteFaculty(int id);
         Task<FacultyDetailsViewModel> GetEditFaculty(int id);

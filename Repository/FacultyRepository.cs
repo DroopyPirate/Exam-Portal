@@ -49,13 +49,13 @@ namespace Exam_Portal.Repository
             return result;
         }
 
-        public async Task<ViewUserViewModel> GetAllFaculty()
+        public async Task<ViewUserViewModel> GetAllFaculty(string role)
         {
             var model = new ViewUserViewModel();
 
             foreach (var user in userManager.Users.ToList())
             {
-                if (await userManager.IsInRoleAsync(user, "Faculty"))
+                if (await userManager.IsInRoleAsync(user, role))
                 {
                     model.User.Add(user);
                 }

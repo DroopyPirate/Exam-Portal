@@ -13,16 +13,21 @@ namespace Exam_Portal.Models
         public int Id { get; set; }
 
         [Required]
-        public int User_id { get; set; }
+        public int Creator_id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
 
         public string Branch { get; set; }
-        public int Semester { get; set; }
+        public int? Semester { get; set; }  //nullable
         public string Division { get; set; }
 
 
 
-        [ForeignKey("User_id")]
+        [ForeignKey("Creator_id")]
         public ApplicationUser ApplicationUser { get; set; }
+
+        public ICollection<UserGroup> UserGroups { get; set; }
 
         public ICollection<AssignedTest> AssignedTests { get; set; }
     }
