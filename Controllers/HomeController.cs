@@ -1,4 +1,5 @@
-﻿using Exam_Portal.Models;
+﻿using Exam_Portal.Enums;
+using Exam_Portal.Models;
 using Exam_Portal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -60,9 +61,13 @@ namespace Exam_Portal.Controllers
                             {
                                 return RedirectToAction("Index", "Faculty");
                             }
-                            else
+                            else if (_role == "Student")
                             {
                                 return RedirectToAction("Index", "Student");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "SuperAdmin");
                             }
                         }
                     }

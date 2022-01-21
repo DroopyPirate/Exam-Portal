@@ -24,6 +24,7 @@ namespace Exam_Portal.Models
         public DbSet<TotalResult> TotalResults { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<AssignedTest> AssignedTests { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Question_type> Question_Types { get; set; }

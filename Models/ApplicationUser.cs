@@ -72,6 +72,8 @@ namespace Exam_Portal.Models
 
         public ICollection<Group> Groups { get; set; }
 
+        public ICollection<UserGroup> UserGroups { get; set; }
+
         public ICollection<QuestionResult> QuestionResults { get; set; }
 
         public ICollection<DescriptiveResult> DescriptiveResults { get; set; }
