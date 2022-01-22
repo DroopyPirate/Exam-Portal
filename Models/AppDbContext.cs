@@ -23,7 +23,7 @@ namespace Exam_Portal.Models
         public DbSet<QuestionResult> QuestionResults { get; set; }
         public DbSet<TotalResult> TotalResults { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<Group> Groups { get; set; }
+        public DbSet<Groups> Groups { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<AssignedTest> AssignedTests { get; set; }
         public DbSet<Material> Materials { get; set; }

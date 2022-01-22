@@ -24,6 +24,6 @@ namespace Exam_Portal.Models
         public ApplicationUser ApplicationUser { get; set; }
 
         [ForeignKey("Group_id")]
-        public Group Group { get; set; }
+        public Groups Group { get; set; }
     }
 }

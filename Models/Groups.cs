@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Exam_Portal.Models
 {
-    public class Group
+    public class Groups
     {
         [Key]
         public int Id { get; set; }

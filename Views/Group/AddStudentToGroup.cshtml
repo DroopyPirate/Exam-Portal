@@ -1,4 +1,4 @@
-﻿@model Exam_Portal.ViewModels.Group.CreateGroupViewModel
+﻿@model Exam_Portal.ViewModels.Admin.ViewUserViewModel
 @{
     if (this.User.IsInRole("Admin"))
     {
@@ -11,10 +11,83 @@
     ViewData["Title"] = "Add Student";
 }
 
-<div class="container-fluid">
-
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Add Student</h1>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Student to Group</h6>
     </div>
-
+    <div class="card-body">
+        @*<form method="post" asp-controller="Admin" asp-action="AddStudentExcel" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="importexcel">Import Data</label>
+                    <input type="file" class="form-control-file" id="importexcel" name="File" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit">
+                </div>
+            </form>*@
+    </div>
 </div>
+
+@if (Model.User.Count > 0)  
+{
+    <hr>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Available Students</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Branch</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Division</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="">Select All</label>
+                                    <input class="form-check-input" type="checkbox" id="selectAll">
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Branch</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Division</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Action</th>
+                        </tr>
+
+                    </tfoot>
+
+                    <tbody>
+                        @foreach (var user in Model.User)
+                        {
+                            <tr>
+                                <td>@user.Name @user.MiddleName @user.LastName</td>
+                                <td>@user.Branch</td>
+                                <td>@user.Semester</td>
+                                <td>@user.Division</td>
+                                <td>@user.PhoneNumber</td>
+                                <td>@user.Email</td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="checkbox">
+                                    </div>
+                                </td>                                               
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
