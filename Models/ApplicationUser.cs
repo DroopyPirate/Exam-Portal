@@ -70,7 +70,7 @@ namespace Exam_Portal.Models
 
         public ICollection<Test> Tests { get; set; }
 
-        public ICollection<Group> Groups { get; set; }
+        public ICollection<Groups> Groups { get; set; }
 
         public ICollection<UserGroup> UserGroups { get; set; }
 
