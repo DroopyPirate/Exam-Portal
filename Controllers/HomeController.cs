@@ -143,6 +143,35 @@ namespace Exam_Portal.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var id = userManager.GetUserId(HttpContext.User);
+            var user = await userManager.FindByIdAsync(id);
+
+            return View(user);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Profile(ApplicationUser model)   //To update Profile
+        {
+            var id = userManager.GetUserId(HttpContext.User);
+            var user = await userManager.FindByIdAsync(id);
+
+            user.Name = model.Name;
+            user.MiddleName = model.MiddleName;
+            user.LastName = model.LastName;
+            user.PhoneNumber = model.PhoneNumber;
+            user.Address = model.Address;
+            user.DOB = model.DOB;
+
+            await userManager.UpdateAsync(user);
+
+            return RedirectToAction("Profile", user);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
