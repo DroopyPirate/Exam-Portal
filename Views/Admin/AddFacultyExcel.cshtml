@@ -10,6 +10,11 @@
     </div>
     <div class="card-body">
         <form method="post" asp-controller="Admin" asp-action="AddFacultyExcel" enctype="multipart/form-data">
+
+            <div class="form-group row">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+
             <div class="form-group">
                 <label for="importexcel">Import Data</label>
                 <input type="file" class="form-control-file" id="importexcel" name="File" required>

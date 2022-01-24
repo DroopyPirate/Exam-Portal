@@ -58,21 +58,6 @@ namespace Exam_Portal.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddStudentToGroup()
-        {
-            var model = new ViewUserViewModel();
-
-            foreach (var user in userManager.Users.ToList())
-            {
-                if (await userManager.IsInRoleAsync(user, "Student"))
-                {
-                    model.User.Add(user);
-                }
-            }
-            return View(model);
-        }
-
-        [HttpGet]
         public async Task<IActionResult> GroupDetails(int id)
         {
             var model = new GroupDetailsViewModel      //Getting the Group for Group details
@@ -103,6 +88,27 @@ namespace Exam_Portal.Controllers
             }
             
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddStudentToGroup(int id)
+        {
+            var model = new ViewUserViewModel();
+
+            foreach (var user in userManager.Users.ToList())
+            {
+                if (await userManager.IsInRoleAsync(user, "Student"))
+                {
+                     model.User.Add(user);
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AddStudentToGroup([FromBody] string[] array)
+        {
+            return RedirectToAction("GroupDetails", new { id = 33 });
         }
     }
 }

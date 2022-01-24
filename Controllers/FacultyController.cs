@@ -178,9 +178,17 @@ namespace Exam_Portal.Controllers
 
                         studentList.Add(student);
 
-                        await userManager.CreateAsync(student, student.Password);
+                        var result = await userManager.CreateAsync(student, student.Password);
 
-                        await userManager.AddToRoleAsync(student, "Student");
+                        var result2 = await userManager.AddToRoleAsync(student, "Student");
+
+                        if (!(result.Succeeded && result2.Succeeded))
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
 
                     }
                 }
