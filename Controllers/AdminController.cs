@@ -370,9 +370,9 @@ namespace Exam_Portal.Controllers
 
                         studentList.Add(student);
 
-                        await userManager.CreateAsync(student, student.Password);
+                         await userManager.CreateAsync(student, student.Password);
 
-                        await userManager.AddToRoleAsync(student, "Student");
+                         await userManager.AddToRoleAsync(student, "Student");
 
                     }
                 }
