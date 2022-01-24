@@ -19,45 +19,48 @@
     </a>
     <!-- Card Content - Collapse -->
     <div class="collapse show" id="collapseCardExample">
-
         <div class="card-body">
-            <div class="form-group row">
-                <label asp-for="@Model.Group.Name" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input asp-for="@Model.Group.Name" class="form-control" disabled>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Group.Name" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Group.Name" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Group.Branch" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Group.Branch" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Group.Semester" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Group.Semester" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Group.Division" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Group.Division" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="card-body">
-            <div class="form-group row">
-                <label asp-for="@Model.Group.Branch" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input asp-for="@Model.Group.Branch" class="form-control" disabled>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-body">
-            <div class="form-group row">
-                <label asp-for="@Model.Group.Semester" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input asp-for="@Model.Group.Semester" class="form-control" disabled>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-body">
-            <div class="form-group row">
-                <label asp-for="@Model.Group.Division" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input asp-for="@Model.Group.Division" class="form-control" disabled>
-                </div>
-            </div>
-        </div>
-
     </div>
- 
+
     @if (Model.Users.Count != 0)
     {
         <hr>

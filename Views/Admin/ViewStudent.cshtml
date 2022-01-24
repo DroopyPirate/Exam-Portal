@@ -47,10 +47,30 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <form asp-controller="Admin" asp-action="DeleteStudent" asp-route-id="@user.Id" method="post">
-                                        <button type="submit" class="btn btn-primary">Delete</button>
-                                    </form>
+                                    <button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#deleteModal">Delete</button>
                                 </td>
+
+                                <!-- Delete Modal-->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Ready to Delete?</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">X</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">Do you really want to DELETE this USER??</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                <form method="post" asp-controller="Admin" asp-action="DeleteStudent" asp-route-id="@user.Id">
+                                                    <button class="btn btn-primary" type="submit">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </tr>
                         }
                     }
