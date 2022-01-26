@@ -33,7 +33,7 @@
                 <label asp-for="Branch" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <select asp-for="Branch" class="custom-select"
-                            asp-items="Html.GetEnumSelectList<BranchEnum>()">
+                            asp-items="Html.GetEnumSelectList<BranchEnumNullable>()">
                         <option selected>Select</option>
                     </select>
                 </div>
@@ -42,17 +42,7 @@
             <div class="form-group row">
                 <label asp-for="Semester" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
-                    <select asp-for="Semester" class="custom-select">
-                        <option selected>Select</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                    </select>
+                    <input type="number" min="1" max="8" asp-for="Semester" class="form-control" placeholder="">
                 </div>
             </div>
 
@@ -60,7 +50,7 @@
                 <label asp-for="Division" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <select asp-for="Division" class="custom-select"
-                            asp-items="Html.GetEnumSelectList<DivisionEnum>()">
+                            asp-items="Html.GetEnumSelectList<DivisionEnumNullable>()">
                         <option selected>Select</option>
                     </select>
                 </div>

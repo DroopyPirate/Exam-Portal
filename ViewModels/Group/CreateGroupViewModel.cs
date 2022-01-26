@@ -15,9 +15,9 @@ namespace Exam_Portal.ViewModels.Group
         [Required]
         public string Name { get; set; }
 
-        public BranchEnum? Branch { get; set; }
+        public BranchEnumNullable? Branch { get; set; }
 
-        public DivisionEnum? Division { get; set; }
+        public DivisionEnumNullable? Division { get; set; }
 
         public int? Semester { get; set; }
     }
