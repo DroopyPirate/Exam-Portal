@@ -64,68 +64,73 @@
     @if (Model.Users.Count != 0)
     {
         <hr>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary d-inline-block">Students in Group</h6>
-                <a class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm" style="float:right"
-                   asp-controller="Group" asp-action="AddStudentToGroup" asp-route-id="@Model.Group.Id">
-                    Add Student
-                </a>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Branch</th>
-                                <th scope="col">Semester</th>
-                                <th scope="col">Division</th>
-                                <th scope="col">Phone Number</th>
-                                <th scope="col">Email Address</th>
-                                <th scope="col">
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="">Select All</label>
-                                        <input class="form-check-input" type="checkbox" id="selectAll">
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Branch</th>
-                                <th scope="col">Semester</th>
-                                <th scope="col">Division</th>
-                                <th scope="col">Phone Number</th>
-                                <th scope="col">Email Address</th>
-                                <th scope="col">Remove</th>
-                            </tr>
-
-                        </tfoot>
-
-                        <tbody>
-                            @foreach (var user in Model.Users)
-                            {
+        <form>
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary d-inline-block">Students in Group</h6>
+                    <a class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm" style="float:right"
+                       asp-controller="Group" asp-action="AddStudentToGroup" asp-route-id="@Model.Group.Id">
+                        Add Student
+                    </a>
+                    <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm mr-3" style="float:right" id="submit">
+                        Remove Students
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
                                 <tr>
-                                    <td>@user.Name @user.MiddleName @user.LastName</td>
-                                    <td>@user.Branch</td>
-                                    <td>@user.Semester</td>
-                                    <td>@user.Division</td>
-                                    <td>@user.PhoneNumber</td>
-                                    <td>@user.Email</td>
-                                    <td>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Branch</th>
+                                    <th scope="col">Semester</th>
+                                    <th scope="col">Division</th>
+                                    <th scope="col">Phone Number</th>
+                                    <th scope="col">Email Address</th>
+                                    <th scope="col">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="checkbox">
+                                            <label class="form-check-label" for="">Select All</label>
+                                            <input class="form-check-input" type="checkbox" id="selectAll">
                                         </div>
-                                    </td>
+                                    </th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Branch</th>
+                                    <th scope="col">Semester</th>
+                                    <th scope="col">Division</th>
+                                    <th scope="col">Phone Number</th>
+                                    <th scope="col">Email Address</th>
+                                    <th scope="col">Remove</th>
+                                </tr>
+
+                            </tfoot>
+
+                            <tbody>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <tr>
+                                        <td>@user.Name @user.MiddleName @user.LastName</td>
+                                        <td>@user.Branch</td>
+                                        <td>@user.Semester</td>
+                                        <td>@user.Division</td>
+                                        <td>@user.PhoneNumber</td>
+                                        <td>@user.Email</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input select_checkbox" type="checkbox" name="select_checkbox_name" value="@user.Id">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     }
     else
     {
@@ -134,7 +139,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary d-inline-block">Students in Group</h6>
                 <a class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm"
-                   asp-controller="Group" asp-action="AddStudentToGroup" style="float:right">
+                   asp-controller="Group" asp-action="AddStudentToGroup" asp-route-id="@Model.Group.Id" style="float:right">
                     Add Student
                 </a>
             </div>
@@ -176,3 +181,53 @@
     }
 
 </div>
+
+<script>
+
+    const selectAll_checkbox = document.getElementById("selectAll");
+
+    selectAll_checkbox.addEventListener("change", () => {
+        let select_checkbox = document.getElementsByClassName("select_checkbox");
+        if (selectAll_checkbox.checked == true) {
+            for (var i = 0; i < select_checkbox.length; i++) {
+                if (select_checkbox[i].checked == false) {
+                    select_checkbox[i].checked = true;
+                }
+            }
+        }
+        else if (selectAll_checkbox.checked == false) {
+            for (var i = 0; i < select_checkbox.length; i++) {
+                if (select_checkbox[i].checked == true) {
+                    select_checkbox[i].checked = false;
+                }
+            }
+        }
+    });
+
+    const submit = document.getElementById("submit");
+
+    submit.addEventListener("click", (e) => {
+        e.preventDefault();
+        let yourArray = [];
+        $("input:checkbox[name='select_checkbox_name']:checked").each(function () {
+            yourArray.push($(this).val());
+        });
+        let id = @ViewContext.RouteData.Values["id"];
+        let str_id = id.toString();
+        yourArray.push(str_id);
+        $.ajax({
+            url: '@Url.Action("RemoveStudent", "Group")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify(yourArray),
+            success: function (result) {
+                if (result.status == true) {
+                    alert("The students are removed");
+                    window.location.reload(); @*= '@Url.Action("GroupDetails", "Group", new { id = ViewContext.RouteData.Values["id"]})';*@
+                }
+            }
+        });
+    });
+
+</script>

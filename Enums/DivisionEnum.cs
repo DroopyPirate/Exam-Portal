@@ -11,4 +11,12 @@ namespace Exam_Portal.Enums
         D,
         E,
     }
+
+    public enum DivisionEnumNullable
+    {
+        None,
+        B,
+        D,
+        E,
+    }
 }

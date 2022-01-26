@@ -47,7 +47,10 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                    <form method="post" asp-controller="Admin" asp-action="DeleteStudent" asp-route-id="@user.Id">
+                                        <button class="btn btn-primary" type="submit">Delete</button>
+                                    </form>
+                                    @*<button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#deleteModal">Delete</button>*@
                                 </td>
 
                                 <!-- Delete Modal-->
