@@ -1,6 +1,6 @@
 ﻿@model Exam_Portal.ViewModels.Admin.ViewUserViewModel
-@Url.RouteUrl(ViewContext.RouteData.Values)
-@Html.AntiForgeryToken();
+@*@Url.RouteUrl(ViewContext.RouteData.Values)*@
+@Html.AntiForgeryToken()
 @{
     if (this.User.IsInRole("Admin"))
     {

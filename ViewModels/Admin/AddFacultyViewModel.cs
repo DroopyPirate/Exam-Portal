@@ -21,7 +21,7 @@ namespace Exam_Portal.ViewModels
         [EmailAddress(ErrorMessage = "Invalid Email format")]
         public string Email { get; set; }
 
-        [Required]
+        //[Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

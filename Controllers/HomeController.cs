@@ -63,7 +63,7 @@ namespace Exam_Portal.Controllers
                             }
                             else if (_role == "Student")
                             {
-                                return RedirectToAction("Index", "Student");
+                                return RedirectToAction("Groups", "Student");
                             }
                             else
                             {
@@ -135,7 +135,7 @@ namespace Exam_Portal.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Student");
+                        return RedirectToAction("Groups", "Student");
                     }
                 }
             }

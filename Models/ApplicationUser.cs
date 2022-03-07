@@ -68,6 +68,8 @@ namespace Exam_Portal.Models
 
 
 
+        public List<Tag> Tags { get; set; }
+
         public ICollection<Test> Tests { get; set; }
 
         public ICollection<Groups> Groups { get; set; }

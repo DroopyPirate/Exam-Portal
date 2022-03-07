@@ -3,14 +3,16 @@ using System;
 using Exam_Portal.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Exam_Portal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220131095846_Test_Module")]
+    partial class Test_Module
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -396,9 +398,9 @@ namespace Exam_Portal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan?>("Duration")
+                    b.Property<string>("Duration")
                         .IsRequired()
-                        .HasColumnType("time");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("EndDate")
                         .IsRequired()
@@ -424,14 +426,9 @@ namespace Exam_Portal.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Type_id")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Faculty_id");
-
-                    b.HasIndex("Type_id");
 
                     b.ToTable("Tests");
                 });
@@ -454,22 +451,7 @@ namespace Exam_Portal.Migrations
 
                     b.HasIndex("Test_id");
 
-                    b.ToTable("TestQuestions");
-                });
-
-            modelBuilder.Entity("Exam_Portal.Models.TestType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type_name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TestTypes");
+                    b.ToTable("TestQuestion");
                 });
 
             modelBuilder.Entity("Exam_Portal.Models.TotalResult", b =>
@@ -753,15 +735,7 @@ namespace Exam_Portal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Exam_Portal.Models.TestType", "TestType")
-                        .WithMany("Tests")
-                        .HasForeignKey("Type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("TestType");
                 });
 
             modelBuilder.Entity("Exam_Portal.Models.TestQuestion", b =>
@@ -922,11 +896,6 @@ namespace Exam_Portal.Migrations
                     b.Navigation("TestQuestions");
 
                     b.Navigation("TotalResults");
-                });
-
-            modelBuilder.Entity("Exam_Portal.Models.TestType", b =>
-                {
-                    b.Navigation("Tests");
                 });
 #pragma warning restore 612, 618
         }
