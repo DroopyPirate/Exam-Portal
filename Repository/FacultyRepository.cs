@@ -31,7 +31,9 @@ namespace Exam_Portal.Repository
             {
                 Email = model.Email,
                 UserName = model.Email,
-                Password = model.Password,
+                //Password = model.Name + "@" + model.DOB.Substring(0,4),
+                Password = model.Name + "@" + model.DOB.Substring(0, 4),
+                //Password = model.Password,
                 Name = model.Name,
                 MiddleName = model.MiddleName,
                 LastName = model.LastName,
@@ -42,7 +44,7 @@ namespace Exam_Portal.Repository
                 InitialLogin = true
             };
 
-            var result = await userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(user, user.Password);
 
             await userManager.AddToRoleAsync(user, model.Role.ToString());
 

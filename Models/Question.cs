@@ -12,8 +12,8 @@ namespace Exam_Portal.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public int Test_id { get; set; }
+        //[Required]
+        //public int Test_id { get; set; }
 
         [Required]
         public int Tag_id { get; set; }
@@ -23,13 +23,15 @@ namespace Exam_Portal.Models
         [Required]
         public string Question_ { get; set; }
 
+        public string Description { get; set; } = "";
+
         [Required]
         public int Marks { get; set; }
 
 
 
-        [ForeignKey("Test_id")]
-        public Test Test { get; set; }
+        //[ForeignKey("Test_id")]
+        //public Test Test { get; set; }
 
         [ForeignKey("Tag_id")]
         public Tag Tag { get; set; }
@@ -39,8 +41,9 @@ namespace Exam_Portal.Models
 
         public ICollection<Option> Options { get; set; }
 
-        public ICollection<QuestionResult> QuestionResults { get; set; }
+        //public ICollection<QuestionResult> QuestionResults { get; set; }
 
+        //Additional Feature
         public ICollection<DescriptiveAnswer> DescriptiveAnswers { get; set; }
 
         public ICollection<DescriptiveResult> DescriptiveResults { get; set; }

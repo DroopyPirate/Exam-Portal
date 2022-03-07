@@ -156,22 +156,25 @@ namespace Exam_Portal.Controllers
             {
                 using(var reader = ExcelReaderFactory.CreateReader(stream))
                 {
+                    int counter = 0;
                     while(reader.Read())
                     {
-                        var faculty = new ApplicationUser
-                        {
-                            Email = reader.GetValue(0).ToString(),
-                            UserName = reader.GetValue(0).ToString(),
-                            Password = reader.GetValue(1).ToString(),
-                            Name = reader.GetValue(2).ToString(),
-                            MiddleName = reader.GetValue(3).ToString(),
-                            LastName = reader.GetValue(4).ToString(),
-                            PhoneNumber = reader.GetValue(5).ToString(),
-                            Address = reader.GetValue(6).ToString(),
-                            Branch = reader.GetValue(7).ToString(),
-                            //DOB = reader.GetValue(8).ToString().Substring(0,10),
-                            DOB = Convert.ToDateTime(reader.GetValue(8)).ToString("yyyy-MM-dd")
-                        };
+                        if (counter == 0) { counter++; continue; } else counter++;
+                        
+                        var faculty = new ApplicationUser();
+                        faculty.Email = reader.GetValue(0).ToString();
+                        faculty.UserName = reader.GetValue(0).ToString();
+                        //Password = reader.GetValue(1).ToString(),
+                        faculty.Name = reader.GetValue(1).ToString();
+                        faculty.MiddleName = reader.GetValue(2).ToString();
+                        faculty.LastName = reader.GetValue(3).ToString();
+                        faculty.PhoneNumber = reader.GetValue(4).ToString();
+                        faculty.Address = reader.GetValue(5).ToString();
+                        faculty.Branch = reader.GetValue(6).ToString();
+                        //DOB = reader.GetValue(8).ToString().Substring(0,10),
+                        faculty.DOB = Convert.ToDateTime(reader.GetValue(7)).ToString("yyyy-MM-dd");
+                        faculty.Password = faculty.Name + "@" + faculty.DOB.Substring(0,4);
+                        
 
                         var emodel = new SendEmailViewModel()
                         {
@@ -349,24 +352,28 @@ namespace Exam_Portal.Controllers
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
+                    int counter = 0;
                     while (reader.Read())
                     {
-                        var student = new ApplicationUser
-                        {
-                            Email = reader.GetValue(0).ToString(),
-                            UserName = reader.GetValue(0).ToString(),
-                            Password = reader.GetValue(1).ToString(),
-                            Name = reader.GetValue(2).ToString(),
-                            MiddleName = reader.GetValue(3).ToString(),
-                            LastName = reader.GetValue(4).ToString(),
-                            PhoneNumber = reader.GetValue(5).ToString(),
-                            Address = reader.GetValue(6).ToString(),
-                            Branch = reader.GetValue(7).ToString(),
-                            Semester = Convert.ToInt32(reader.GetValue(8)),
-                            Division = reader.GetValue(9).ToString(),
-                            //DOB = reader.GetValue(10).ToString().Substring(0,10),
-                            DOB = Convert.ToDateTime(reader.GetValue(10)).ToString("yyyy-MM-dd")
-                        };
+                        if (counter == 0) { counter++; continue; } else { counter++; }
+
+                        var student = new ApplicationUser();
+
+                        student.Email = reader.GetValue(0).ToString();
+                        student.UserName = reader.GetValue(0).ToString();
+                        //Password = reader.GetValue(1).ToString();
+                        student.Name = reader.GetValue(1).ToString();
+                        student.MiddleName = reader.GetValue(2).ToString();
+                        student.LastName = reader.GetValue(3).ToString();
+                        student.PhoneNumber = reader.GetValue(4).ToString();
+                        student.Address = reader.GetValue(5).ToString();
+                        student.Branch = reader.GetValue(6).ToString();
+                        student.Semester = Convert.ToInt32(reader.GetValue(7));
+                        student.Division = reader.GetValue(8).ToString();
+                        //DOB = reader.GetValue(10).ToString().Substring(0,10),
+                        student.DOB = Convert.ToDateTime(reader.GetValue(9)).ToString("yyyy-MM-dd");
+                        student.Password = student.Name + "@" + student.DOB.Substring(0,4);
+                        
 
                         var emodel = new SendEmailViewModel()
                         {

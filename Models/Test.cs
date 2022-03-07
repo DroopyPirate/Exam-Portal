@@ -12,37 +12,45 @@ namespace Exam_Portal.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        //[Required]
         public int Faculty_id { get; set; }
 
         [Required]
         public string Title { get; set; }
 
-        [Required]
-        public bool Type { get; set; }
+        //[Required]
+        public int Type_id { get; set; }
 
         [Required]
-        [DataType(DataType.Time)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
-        public string Duration { get; set; }
+        //[DataType(DataType.Time)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{hh:mm:ss}")]
+        public TimeSpan? Duration { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime ExpiryDate { get; set; }
-
-        public int Marks { get; set; }
-
-        public int PassingMarks { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? StartDate { get; set; }
 
         [Required]
-        public string Language { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? EndDate { get; set; }
+
+        public int? Marks { get; set; }
+
+        public int? PassingMarks { get; set; }
+
+        //[Required]
+        public string Language { get; set; } = "";
 
 
 
         [ForeignKey("Faculty_id")]
         public ApplicationUser ApplicationUser { get; set; }
 
-        public ICollection<Question> Questions { get; set; }
+        [ForeignKey("Type_id")]
+        public TestType TestType { get; set; }
+
+        //public ICollection<Question> Questions { get; set; }
+        public ICollection<TestQuestion> TestQuestions { get; set; }
 
         public ICollection<AssignedTest> AssignedTests { get; set; }
 
