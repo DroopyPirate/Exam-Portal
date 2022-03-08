@@ -107,13 +107,44 @@
                         <a class="collapse-item" asp-controller="Group" asp-action="CreateGroup">Create Groups</a>
                         <a class="collapse-item" asp-controller="Group" asp-action="ViewGroups">View Groups</a>
                         @*<a class="collapse-item" href="register.html"></a>
-                            <a class="collapse-item" href="forgot-password.html"></a>
-                            <div class="collapse-divider"></div>
-                            <h6 class="collapse-header">Other Pages:</h6>
-                            <a class="collapse-item" href="404.html">404 Page</a>
-                            <a class="collapse-item" href="blank.html">Blank Page</a>*@
+                    <a class="collapse-item" href="forgot-password.html"></a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Other Pages:</h6>
+                    <a class="collapse-item" href="404.html">404 Page</a>
+                    <a class="collapse-item" href="blank.html">Blank Page</a>*@
                     </div>
                 </div>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTest"
+                   aria-expanded="true" aria-controls="collapseTest">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>Test</span>
+                </a>
+                <div id="collapseTest" class="collapse" aria-labelledby="headingTest" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Action:</h6>
+                        <a class="collapse-item" asp-controller="Test" asp-action="Index">Create Test</a>
+                        <a class="collapse-item" asp-controller="Test" asp-action="ViewTest">View Test</a>
+                        @*<a class="collapse-item" href="register.html"></a>
+                    <a class="collapse-item" href="forgot-password.html"></a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Other Pages:</h6>
+                    <a class="collapse-item" href="404.html">404 Page</a>
+                    <a class="collapse-item" href="blank.html">Blank Page</a>*@
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="TestType" asp-action="Index">
+                    <i class="fas fa-file"></i>
+                    <span>Test Type</span>
+                </a>
             </li>
 
             <li class="nav-item">
@@ -122,7 +153,6 @@
                     <span>Tags</span>
                 </a>
             </li>
-
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

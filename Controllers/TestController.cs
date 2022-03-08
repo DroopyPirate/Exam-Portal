@@ -56,5 +56,11 @@ namespace Exam_Portal.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult ViewTest()
+        {
+            return View();
+        }
     }
 }
