@@ -1,0 +1,116 @@
+﻿@model Exam_Portal.ViewModels.Tests.TestDetailsViewModel
+@{
+    ViewData["Title"] = "Create Test";
+
+    if (this.User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Admin/_Layout.cshtml";
+    }
+    else if (this.User.IsInRole("Faculty"))
+    {
+        Layout = "~/Views/Faculty/_Layout.cshtml";
+    }
+}
+
+<div class="card shadow mb-4">
+
+    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+       role="button" aria-expanded="true" aria-controls="collapseCardExample">
+        <h6 class="m-0 font-weight-bold text-primary">Test Details</h6>
+    </a>
+    <!-- Card Content - Collapse -->
+    <div class="collapse show" id="collapseCardExample">
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Test.Title" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Test.Title" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Test.Duration" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Test.Duration" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Test.TestType.Type_name" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Test.TestType.Type_name" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Test.PassingMarks" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Test.PassingMarks" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Test.Marks" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Test.Marks" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Questions</label>
+                            <div class="col-sm-10">
+                                <input type="number" id="count" class="form-control" value="@Model.NoOfQuestions" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Test.StartDate" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Test.StartDate" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Test.EndDate" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Test.EndDate" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="Assign">NHK</button>
+
+<script>
+
+    const count = document.getElementById("count").value;
+    const assignBtn = document.getElementById("Assign");
+    if (count == 0) {
+        assignBtn.disabled = true;
+    }
+    console.log(count);
+
+</script>

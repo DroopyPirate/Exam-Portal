@@ -132,6 +132,10 @@
 
     submit.addEventListener("click", (e) => {
         e.preventDefault();
+        let flag = confirm("You want to add selected students to this group?");
+        if (flag == false) {
+            return;
+        }
         let yourArray = [];
         $("input:checkbox[name='select_checkbox_name']:checked").each(function () {
             yourArray.push($(this).val());
@@ -153,7 +157,7 @@
             success: function (result) {
                 console.log(result);
                 if (result.status == true) {
-                    alert("The students are added");
+                    //alert("The students are added");
                     window.location = '@Url.Action("GroupDetails", "Group", new { id = ViewContext.RouteData.Values["id"]})';
                 }
             }
