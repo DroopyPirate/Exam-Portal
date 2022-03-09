@@ -26,6 +26,7 @@ namespace Exam_Portal.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly AppDbContext context;
 
         private readonly IFacultyRepository facultyRepository;
         private readonly IStudentRepository studentRepository;
@@ -34,13 +35,15 @@ namespace Exam_Portal.Controllers
                                IStudentRepository studentRepository,
                                UserManager<ApplicationUser> userManager,
                                SignInManager<ApplicationUser> signInManager,
-                               RoleManager<ApplicationRole> roleManager)
+                               RoleManager<ApplicationRole> roleManager,
+                               AppDbContext context)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             this.facultyRepository = facultyRepository;
             this.studentRepository = studentRepository;
+            this.context = context;
         }
 
         [Authorize(Roles = "Admin")]
@@ -461,6 +464,36 @@ namespace Exam_Portal.Controllers
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
+
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> ViewTest()
+        {
+            var model = new ViewTestViewModel();  
+            var tests = (from t in context.Tests select t).ToList(); //Get all Tests
+
+            foreach(var test in tests)
+            {
+                var creator = await userManager.FindByIdAsync(test.Faculty_id.ToString());
+                int count = (from tq in context.TestQuestions 
+                             where tq.Test_id == test.Id 
+                             select tq).ToList().Count();
+
+                var modelTest = new TestExtended
+                {
+                    Title = test.Title,
+                    CreatorName = creator.Name + " " + creator.LastName,
+                    NoOfQuestions = count
+                };
+
+                model.TestExtendeds.Add(modelTest);
             }
 
             return View(model);

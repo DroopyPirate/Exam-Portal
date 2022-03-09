@@ -208,6 +208,10 @@
 
     submit.addEventListener("click", (e) => {
         e.preventDefault();
+        let flag = confirm("Yo want to delete selected students?");
+        if (flag == false) {
+            return;
+        }
         let yourArray = [];
         $("input:checkbox[name='select_checkbox_name']:checked").each(function () {
             yourArray.push($(this).val());
@@ -223,7 +227,7 @@
             data: JSON.stringify(yourArray),
             success: function (result) {
                 if (result.status == true) {
-                    alert("The students are removed");
+                    //alert("The students are removed");
                     window.location.reload(); @*= '@Url.Action("GroupDetails", "Group", new { id = ViewContext.RouteData.Values["id"]})';*@
                 }
             }

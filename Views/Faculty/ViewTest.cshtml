@@ -1,0 +1,51 @@
+﻿@model Exam_Portal.ViewModels.Admin.ViewTestViewModel
+@{
+    ViewData["Title"] = "View Tests";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">View Tests</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">Test Name</th>
+                        <th scope="col">Created by</th>
+                        <th scope="col">Question Test</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th scope="col">Test Name</th>
+                        <th scope="col">Created by</th>
+                        <th scope="col">Question Test</th>
+                        <th scope="col"></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @if (Model.TestExtendeds.Any())
+                    {
+                        foreach (var test in Model.TestExtendeds)
+                        {
+                            <tr>
+                                <td>@test.Title</td>
+                                <td>@test.CreatorName</td>
+                                <td>@test.NoOfQuestions</td>
+                                <td>
+                                    <a class="btn btn-primary" asp-controller="Test" asp-action="TestDetails" asp-route-id="@test.Id">
+                                        View
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

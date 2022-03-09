@@ -58,7 +58,39 @@ namespace Exam_Portal.Controllers
         }
 
         [HttpGet]
-        public IActionResult ViewTest()
+        public IActionResult TestDetails(int id)
+        {
+            var testList = (from t in context.Tests
+                            where t.Id == id select t).ToList();
+            var test = testList[0];
+            test.TestType = (from tt in context.TestTypes 
+                             where tt.Id == test.Type_id select tt).ToList()[0];
+            //converted to list and appended first value as only one value exists
+            int count = (from tq in context.TestQuestions
+                         where tq.Test_id == test.Id
+                         select tq).ToList().Count();
+
+            var model = new TestDetailsViewModel
+            {
+                Test = test,
+                NoOfQuestions = count,
+            };
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult AddQuestions()
+        {
+            int user_id = Convert.ToInt32(userManager.GetUserId(HttpContext.User));
+            var model = new AddQuestionsViewModel();
+            model.Tags = (from t in context.Tags
+                          where t.Creator_id == user_id
+                          select t).ToList();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AddQuestions(AddQuestionsViewModel model)
         {
             return View();
         }

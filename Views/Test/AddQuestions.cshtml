@@ -1,0 +1,222 @@
+﻿@model Exam_Portal.ViewModels.Tests.AddQuestionsViewModel
+@{
+    ViewData["Title"] = "Create Test";
+
+    if (this.User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Admin/_Layout.cshtml";
+    }
+    else if (this.User.IsInRole("Faculty"))
+    {
+        Layout = "~/Views/Faculty/_Layout.cshtml";
+    }
+}
+<script src="~/vendor/jquery/jquery.min.js"></script>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Questions</h6>
+    </div>
+    <div class="card-body">
+        <!-- Page Heading -->
+
+        <form asp-controller="Test" asp-action="AddQuestions" method="post" class="mt-3">
+
+            <div class="form-group row">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+
+            <hr class="mt-2">
+            <ol class="questions" style="overflow-y:auto;">
+                    <div class="form-group row">
+                        <label asp-for="Question" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="Question" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Option1" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="Option1" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Option2" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="Option2" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Option3" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="Option3" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Option4" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="Option4" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Answer" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="Answer" class="mr-sm-2 custom-select" id="select" required>
+                                <option value="-1">Select your answer</option>
+                                <option value="0">1</option>
+                                <option value="1">2</option>
+                                <option value="2">3</option>
+                                <option value="3">4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Tag_name" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="Tag_name" class="custom-select mr-sm-2" id="tag_select" required>
+                                <option value="-1">Select your answer</option>
+                                @foreach (var tag in Model.Tags)
+                                {
+                                    <option>@tag.Tag_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="Description" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="Marks" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="number" min="1" asp-for="Marks" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+            </ol>
+            
+
+            <div class="text-center">
+                <button id="btn1" type="button" class="btn btn-primary mb-2">Add Question</button>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    document.getElementById("select").multiple = false;
+    document.getElementById("tag_select").multiple = false;
+
+    $(document).ready(function () {
+
+
+
+        $("#btn1").click(function () {
+            $(".questions").append(`
+        <div class="form-group row">
+                        <label asp-for="@Model.Question" class="col-sm-2 col-form-label">Question</label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="@Model.Question" name="Question" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="@Model.Option1" class="col-sm-2 col-form-label">Option 1</label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="@Model.Option1" name="Option1" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="@Model.Option2" class="col-sm-2 col-form-label">Option 2</label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="@Model.Option2" name="Option2" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="@Model.Option3" class="col-sm-2 col-form-label">Option 3</label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="@Model.Option3" name="Option3" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="@Model.Option4" class="col-sm-2 col-form-label">Option 4</label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="@Model.Option4" name="Option4" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="@Model.Answer" class="col-sm-2 col-form-label">Answer</label>
+                        <div class="col-sm-10">
+                            <select asp-for="@Model.Answer" name="Answer" class="mr-sm-2 custom-select" id="select" required>
+                                <option value="-1">Select your answer</option>
+                                <option value="0">1</option>
+                                <option value="1">2</option>
+                                <option value="2">3</option>
+                                <option value="3">4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="@Model.Tag_name" class="col-sm-2 col-form-label">Tag</label>
+                        <div class="col-sm-10">
+                            <select asp-for="@Model.Tag_name" name="Tag_name" class="custom-select mr-sm-2" id="tag_select" required>
+                                <option value="-1">Select your answer</option>
+                                @foreach (var tag in Model.Tags)
+                                {
+                                    <option>@tag.Tag_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="@Model.Description" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="@Model.Description" name="Description" class="form-control" placeholder="" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="@Model.Marks"" class="col-sm-2 col-form-label">Marks</label>
+                        <div class="col-sm-10">
+                            <input type="number" min="1" asp-for="@Model.Marks" name="Marks" class="form-control" placeholder="" required>
+                        </div>
+                    </div>`);
+        });
+    });
+
+    //const btn = document.getElementById("btn1")
+    //btn.addEventListener('click', (event) => {
+    //    console.log("Niche");
+    //    let div = document.getElementsByClassName("questions")
+    //    div.append(`<div class="form-group">
+
+    //                    <label class="col-sm-2 col-form-label">Testing</label>
+    //                    <div class="col-sm-10">
+    //                        <input type="text" class="form-control" placeholder="">
+
+    //                </div>
+    //            </div><hr>`);
+    //});
+</script>

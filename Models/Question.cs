@@ -39,7 +39,7 @@ namespace Exam_Portal.Models
         [ForeignKey("Question_type_id")]
         public Question_type Question_Type { get; set; }
 
-        public ICollection<Option> Options { get; set; }
+        public List<Option> Options { get; set; }
 
         //public ICollection<QuestionResult> QuestionResults { get; set; }
 

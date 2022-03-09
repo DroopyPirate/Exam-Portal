@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Exam_Portal.Models
         public int Faculty_id { get; set; }
 
         [Required]
+        [DisplayName("Name")]
         public string Title { get; set; }
 
         //[Required]
@@ -28,14 +30,17 @@ namespace Exam_Portal.Models
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayName("Start Date")]
         public DateTime? StartDate { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayName("End Date")]
         public DateTime? EndDate { get; set; }
 
         public int? Marks { get; set; }
 
+        [DisplayName("Passing %")]
         public int? PassingMarks { get; set; }
 
         //[Required]
