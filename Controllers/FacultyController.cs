@@ -71,7 +71,7 @@ namespace Exam_Portal.Controllers
                 {
                     Name = model.Name,
                     UserName = model.Email,
-                    Password = model.Password
+                    Password = model.Name + "@" + model.DOB.Substring(0, 4),
                 };
 
                 if (result.Succeeded)
