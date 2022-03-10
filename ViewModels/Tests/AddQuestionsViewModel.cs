@@ -47,7 +47,9 @@ namespace Exam_Portal.ViewModels.Tests
 
         [Required]
         [DisplayName("Tag")]
-        public string[] Tag_name { get; set; }
+        public int[] Tag_id { get; set; }
+
+        public int Test_id { get; set; }
 
         public List<Tag> Tags { get; set; }
     }

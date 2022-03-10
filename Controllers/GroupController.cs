@@ -60,10 +60,13 @@ namespace Exam_Portal.Controllers
         [HttpGet]
         public async Task<IActionResult> GroupDetails(int id)
         {
+            int user_id = Convert.ToInt32(userManager.GetUserId(HttpContext.User));  //Get current user id
             var model = new GroupDetailsViewModel      //Getting the Group for Group details
             {
                 Group = context.Groups.Find(id),
             };
+
+            model.byUser = (model.Group.Creator_id == user_id); //Check if group created by current user  
 
             List<UserGroup> userGroupsList = new();            //Storing data of usergroup in list for particular group
             foreach(var usergroup in context.UserGroups)
@@ -149,10 +152,73 @@ namespace Exam_Portal.Controllers
             return Json(new { status = true });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ViewGroups()
+        //[HttpGet]
+        //public async Task<IActionResult> ViewGroups()
+        //{
+        //    var groups = (from g in context.Groups select g).ToList();  //Get all groups
+        //    var model = new ViewGroupsViewModel();
+
+        //    foreach (var group in groups)
+        //    {
+        //        var id = group.Id;                         // Get id of the group
+        //        var studentcount = from b in context.UserGroups where b.Group_id == id select b;   //Get all entries of usergroup for that group id
+        //        var count = studentcount.Count();    // Get the count of the entries
+
+        //        var faculty = await userManager.FindByIdAsync(group.Creator_id.ToString());  //Get faculty by creator_id to get faculty name
+
+        //        var modelgroup = new GroupExtended
+        //        {
+        //            Id = group.Id,
+        //            Name = group.Name,
+        //            CreatorName = faculty.Name + " " + faculty.LastName,
+        //            StudentCount = count,
+        //            Branch = group.Branch,
+        //            Semester = group.Semester,
+        //            Division = group.Division,
+        //        };
+        //        model.GroupExtendeds.Add(modelgroup);
+        //    }
+        //    return View(model);
+        //}
+
+        [HttpGet]  //Get all Groups created by the User
+        public async Task<IActionResult> ViewUserGroups()
         {
-            var groups = (from g in context.Groups select g).ToList();  //Get all groups
+            int user_id = Convert.ToInt32(userManager.GetUserId(HttpContext.User));
+            var groups = (from g in context.Groups
+                          where g.Creator_id == user_id select g).ToList();  //Get all groups
+            var model = new ViewGroupsViewModel();
+
+            foreach (var group in groups)
+            {
+                var id = group.Id;                         // Get id of the group
+                var studentcount = from b in context.UserGroups where b.Group_id == id select b;   //Get all entries of usergroup for that group id
+                var count = studentcount.Count();    // Get the count of the entries
+
+                var faculty = await userManager.FindByIdAsync(group.Creator_id.ToString());  //Get faculty by creator_id to get faculty name
+
+                var modelgroup = new GroupExtended
+                {
+                    Id = group.Id,
+                    Name = group.Name,
+                    CreatorName = faculty.Name + " " + faculty.LastName,
+                    StudentCount = count,
+                    Branch = group.Branch,
+                    Semester = group.Semester,
+                    Division = group.Division,
+                };
+                model.GroupExtendeds.Add(modelgroup);
+            }
+            return View(model);
+        }
+
+        [HttpGet]  //Get all groups created other than user
+        public async Task<IActionResult> ViewOtherGroups()
+        {
+            int user_id = Convert.ToInt32(userManager.GetUserId(HttpContext.User));
+            var groups = (from g in context.Groups
+                          where g.Creator_id != user_id
+                          select g).ToList();  //Get all groups
             var model = new ViewGroupsViewModel();
 
             foreach (var group in groups)

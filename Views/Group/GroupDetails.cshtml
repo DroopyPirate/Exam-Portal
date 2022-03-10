@@ -8,7 +8,7 @@
     {
         Layout = "~/Views/Faculty/_Layout.cshtml";
     }
-    ViewData["Title"] = "Add Student";
+    ViewData["Title"] = "Group Details";
 }
 
 <div class="card shadow mb-4">
@@ -61,76 +61,84 @@
         </div>
     </div>
 
+    <div class="form-group row" hidden>
+        <label asp-for="@Model.byUser" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="@Model.byUser" value="@Model.byUser" id="created_by" class="form-control" disabled>
+        </div>
+    </div>
+
+
     @if (Model.Users.Count != 0)
     {
         <hr>
-        <form>
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary d-inline-block">Students in Group</h6>
-                    <a class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm" style="float:right"
-                       asp-controller="Group" asp-action="AddStudentToGroup" asp-route-id="@Model.Group.Id">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary d-inline-block">Students in Group</h6>
+                <form asp-controller="Group" asp-action="AddStudentToGroup" asp-route-id="@Model.Group.Id" method="get">
+                    <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm"
+                            style="float:right" id="Add">
                         Add Student
-                    </a>
-                    <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm mr-3" style="float:right" id="submit">
-                        Remove Students
                     </button>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
+                </form>
+                <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm mr-3" style="float:right" id="submit">
+                    Remove Students
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Branch</th>
+                                <th scope="col">Semester</th>
+                                <th scope="col">Division</th>
+                                <th scope="col">Phone Number</th>
+                                <th scope="col">Email Address</th>
+                                <th scope="col">
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="">Select All</label>
+                                        <input class="form-check-input" type="checkbox" id="selectAll">
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Branch</th>
+                                <th scope="col">Semester</th>
+                                <th scope="col">Division</th>
+                                <th scope="col">Phone Number</th>
+                                <th scope="col">Email Address</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+
+                        </tfoot>
+
+                        <tbody>
+                            @foreach (var user in Model.Users)
+                            {
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Branch</th>
-                                    <th scope="col">Semester</th>
-                                    <th scope="col">Division</th>
-                                    <th scope="col">Phone Number</th>
-                                    <th scope="col">Email Address</th>
-                                    <th scope="col">
+                                    <td>@user.Name @user.MiddleName @user.LastName</td>
+                                    <td>@user.Branch</td>
+                                    <td>@user.Semester</td>
+                                    <td>@user.Division</td>
+                                    <td>@user.PhoneNumber</td>
+                                    <td>@user.Email</td>
+                                    <td>
                                         <div class="form-check">
-                                            <label class="form-check-label" for="">Select All</label>
-                                            <input class="form-check-input" type="checkbox" id="selectAll">
+                                            <input class="form-check-input select_checkbox" type="checkbox" name="select_checkbox_name" value="@user.Id">
                                         </div>
-                                    </th>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Branch</th>
-                                    <th scope="col">Semester</th>
-                                    <th scope="col">Division</th>
-                                    <th scope="col">Phone Number</th>
-                                    <th scope="col">Email Address</th>
-                                    <th scope="col">Remove</th>
-                                </tr>
-
-                            </tfoot>
-
-                            <tbody>
-                                @foreach (var user in Model.Users)
-                                {
-                                    <tr>
-                                        <td>@user.Name @user.MiddleName @user.LastName</td>
-                                        <td>@user.Branch</td>
-                                        <td>@user.Semester</td>
-                                        <td>@user.Division</td>
-                                        <td>@user.PhoneNumber</td>
-                                        <td>@user.Email</td>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input select_checkbox" type="checkbox" name="select_checkbox_name" value="@user.Id">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </form>
+        </div>
     }
     else
     {
@@ -138,10 +146,12 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary d-inline-block">Students in Group</h6>
-                <a class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm"
-                   asp-controller="Group" asp-action="AddStudentToGroup" asp-route-id="@Model.Group.Id" style="float:right">
-                    Add Student
-                </a>
+                <form asp-controller="Group" asp-action="AddStudentToGroup" asp-route-id="@Model.Group.Id" method="get">
+                    <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm"
+                            style="float:right" id="Add">
+                        Add Student
+                    </button>
+                </form>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -233,5 +243,13 @@
             }
         });
     });
+
+    const add = document.getElementById("Add");
+    const createdByBtn = document.getElementById("created_by");
+    if (createdByBtn.value == "False") {
+        add.disabled = true;
+        submit.disabled = true;
+    }
+
 
 </script>

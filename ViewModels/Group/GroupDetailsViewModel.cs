@@ -14,7 +14,7 @@ namespace Exam_Portal.ViewModels.Group
         }
 
         public List<ApplicationUser> Users { get; set; }
-
         public Groups Group { get; set; }
+        public bool byUser { get; set; }
     }
 }
