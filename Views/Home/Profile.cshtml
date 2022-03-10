@@ -1,0 +1,138 @@
+﻿@model Exam_Portal.Models.ApplicationUser
+@{ 
+    if (this.User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Admin/_Layout.cshtml";
+    }
+    else if (this.User.IsInRole("Faculty"))
+    {
+        Layout = "~/Views/Faculty/_Layout.cshtml";
+    }
+    else if (this.User.IsInRole("Student"))
+    {
+        Layout = "~/Views/Student/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/SuperAdmin/_Layout.cshtml";
+    }
+
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">My Profile</h6>
+    </div>
+    <div class="card-body">
+        <form method="post" asp-controller="Home" asp-action="Profile">
+
+            <div class="form-group row">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="Email" class="form-control" placeholder="" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Branch" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="Branch" class="form-control" placeholder="" disabled>
+                </div>
+            </div>
+
+            @if (this.User.IsInRole("Student"))
+            {
+                <div class="form-group row">
+                    <label asp-for="Semester" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="Semester" class="form-control" placeholder="" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Division" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="Division" class="form-control" placeholder="" disabled>
+                    </div>
+                </div>
+            }
+
+            <div class="form-group row">
+                <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="Name" class="form-control" id="Name" placeholder="" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="MiddleName" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="MiddleName" class="form-control" id="MiddleName" placeholder="" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="LastName" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="LastName" class="form-control" id="LastName" placeholder="" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="PhoneNumber" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="PhoneNumber" class="form-control" id="PhoneNumber" placeholder="" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Address" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="Address" class="form-control" id="Address" placeholder="" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="DOB" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="DOB" class="form-control" id="DOB" placeholder="" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row d-inline-block" id="Edit_btn">
+                <div class="col-sm-10">
+                    <a class="btn btn-primary">Edit</a>
+                </div>
+            </div>
+
+            <div class="form-group row d-inline-block" id="Update_btn" style="display: none !important;">
+                <div class="col-sm-10">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    const edit_btn = document.getElementById("Edit_btn");
+    const update_btn = document.getElementById("Update_btn");
+
+    edit_btn.addEventListener("click", () => {
+
+        update_btn.style.display = "inline-block";
+
+        document.getElementById("Name").disabled = false;
+        document.getElementById("MiddleName").disabled = false;
+        document.getElementById("LastName").disabled = false;
+        document.getElementById("PhoneNumber").disabled = false;
+        document.getElementById("Address").disabled = false;
+        document.getElementById("DOB").disabled = false;
+    });
+</script>

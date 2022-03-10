@@ -1,7 +1,10 @@
 using Exam_Portal.Models;
+using Exam_Portal.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -9,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,13 +37,26 @@ namespace Exam_Portal
 
             services.AddIdentity<ApplicationUser, ApplicationRole>().AddEntityFrameworkStores<AppDbContext>();
 
+            //Setting up the Default Login Path for [Authorize]
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Home/Index");
+
             services.AddControllersWithViews();
 
-            services.AddMvc(options =>
+            services.AddMvc(
+                //options =>{
+            //    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            //    options.Filters.Add(new AuthorizeFilter(policy));}
+            ).AddXmlSerializerFormatters();
+
+            services.AddTransient<IFacultyRepository, FacultyRepository>();
+            services.AddTransient<IStudentRepository, StudentRepository>();
+
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+            services.AddControllers().AddNewtonsoftJson(options =>
             {
-                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            }).AddXmlSerializerFormatters();
+                // Use the default property (Pascal) casing
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

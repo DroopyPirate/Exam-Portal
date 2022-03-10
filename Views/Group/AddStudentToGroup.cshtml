@@ -1,0 +1,158 @@
+﻿@model Exam_Portal.ViewModels.Admin.ViewUserViewModel
+@*@Url.RouteUrl(ViewContext.RouteData.Values)*@
+@Html.AntiForgeryToken()
+@{
+    if (this.User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Admin/_Layout.cshtml";
+    }
+    else if (this.User.IsInRole("Faculty"))
+    {
+        Layout = "~/Views/Faculty/_Layout.cshtml";
+    }
+    ViewData["Title"] = "Add Student";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Student to Group</h6>
+    </div>
+</div>
+
+<hr>
+<div class="card shadow mb-4">
+    <form asp-controller="Group" asp-action="AddStudentToGroup" method="post">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary d-inline-block">Students in Group</h6>
+            <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm" style="float:right" id="submit">
+                Add To Group
+            </button>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Branch</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Division</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="">Select All</label>
+                                    <input class="form-check-input" type="checkbox" id="selectAll">
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Branch</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Division</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Action</th>
+                        </tr>
+
+                    </tfoot>
+
+                    <tbody>
+                        @foreach (var user in Model.User)
+                        {
+                            <tr>
+                                <td>@user.Name @user.MiddleName @user.LastName</td>
+                                <td>@user.Branch</td>
+                                <td>@user.Semester</td>
+                                <td>@user.Division</td>
+                                <td>@user.PhoneNumber</td>
+                                <td>@user.Email</td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input select_checkbox" name="select_checkbox_name" type="checkbox" value="@user.Id">
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @*<div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary float-right" id="submit">Create</button>
+                </div>*@
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+<script>
+
+/*const { toString } = require("../../wwwroot/vendor/fontawesome-free/js/v4-shims");*/
+
+/*const { push } = require("../../wwwroot/vendor/fontawesome-free/js/v4-shims");*/
+
+
+    const selectAll_checkbox = document.getElementById("selectAll");
+
+    selectAll_checkbox.addEventListener("change", () => {
+        let select_checkbox = document.getElementsByClassName("select_checkbox");
+        if (selectAll_checkbox.checked == true) {
+            for (var i = 0; i < select_checkbox.length; i++) {
+                if (select_checkbox[i].checked == false) {
+                    select_checkbox[i].checked = true;
+                }
+            }
+        }
+        else if (selectAll_checkbox.checked == false) {
+            for (var i = 0; i < select_checkbox.length; i++) {
+                if (select_checkbox[i].checked == true) {
+                    select_checkbox[i].checked = false;
+                }
+            }
+        }
+    });
+
+    const submit = document.getElementById("submit");
+
+    submit.addEventListener("click", (e) => {
+        e.preventDefault();
+        let flag = confirm("You want to add selected students to this group?");
+        if (flag == false) {
+            return;
+        }
+        let yourArray = [];
+        $("input:checkbox[name='select_checkbox_name']:checked").each(function () {
+            yourArray.push($(this).val());
+        });
+        let id = @ViewContext.RouteData.Values["id"];
+        let str_id = id.toString();
+        yourArray.push(str_id);
+        console.log(yourArray);
+        console.log(typeof (id));
+        $.ajax({
+            url: '@Url.Action("AddStudentToGroup", "Group")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            data: JSON.stringify(yourArray),
+            success: function (result) {
+                console.log(result);
+                if (result.status == true) {
+                    //alert("The students are added");
+                    window.location = '@Url.Action("GroupDetails", "Group", new { id = ViewContext.RouteData.Values["id"]})';
+                }
+            }
+        });
+       
+    });
+
+</script>
+

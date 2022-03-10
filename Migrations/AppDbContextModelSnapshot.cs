@@ -59,7 +59,6 @@ namespace Exam_Portal.Migrations
                         .HasColumnType("varchar(70)");
 
                     b.Property<string>("Branch")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -71,7 +70,6 @@ namespace Exam_Portal.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Division")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
@@ -79,6 +77,9 @@ namespace Exam_Portal.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("InitialLogin")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("LastName")
@@ -121,9 +122,6 @@ namespace Exam_Portal.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -219,7 +217,7 @@ namespace Exam_Portal.Migrations
                     b.ToTable("DescriptiveResults");
                 });
 
-            modelBuilder.Entity("Exam_Portal.Models.Group", b =>
+            modelBuilder.Entity("Exam_Portal.Models.Groups", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -228,18 +226,22 @@ namespace Exam_Portal.Migrations
                     b.Property<string>("Branch")
                         .HasColumnType("text");
 
+                    b.Property<int>("Creator_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Division")
                         .HasColumnType("text");
 
-                    b.Property<int>("Semester")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<int>("User_id")
+                    b.Property<int?>("Semester")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("User_id");
+                    b.HasIndex("Creator_id");
 
                     b.ToTable("Groups");
                 });
@@ -297,6 +299,9 @@ namespace Exam_Portal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<int>("Marks")
                         .HasColumnType("int");
 
@@ -310,16 +315,11 @@ namespace Exam_Portal.Migrations
                     b.Property<int>("Tag_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Test_id")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Question_type_id");
 
                     b.HasIndex("Tag_id");
-
-                    b.HasIndex("Test_id");
 
                     b.ToTable("Questions");
                 });
@@ -330,16 +330,16 @@ namespace Exam_Portal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Answer_time")
-                        .HasColumnType("text");
-
                     b.Property<bool>("Is_right")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<int>("Option_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Question_id")
+                    b.Property<int?>("TestQuestion_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestQuestions_id")
                         .HasColumnType("int");
 
                     b.Property<int>("User_id")
@@ -349,7 +349,7 @@ namespace Exam_Portal.Migrations
 
                     b.HasIndex("Option_id");
 
-                    b.HasIndex("Question_id");
+                    b.HasIndex("TestQuestion_id");
 
                     b.HasIndex("User_id");
 
@@ -376,11 +376,16 @@ namespace Exam_Portal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("Creator_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Tag_name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Creator_id");
 
                     b.ToTable("Tags");
                 });
@@ -391,38 +396,80 @@ namespace Exam_Portal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Duration")
+                    b.Property<TimeSpan?>("Duration")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("time");
 
-                    b.Property<DateTime>("ExpiryDate")
+                    b.Property<DateTime?>("EndDate")
+                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<int>("Faculty_id")
                         .HasColumnType("int");
 
                     b.Property<string>("Language")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Marks")
+                    b.Property<int?>("Marks")
                         .HasColumnType("int");
 
-                    b.Property<int>("PassingMarks")
+                    b.Property<int?>("PassingMarks")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartDate")
+                        .IsRequired()
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("Type")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<int>("Type_id")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Faculty_id");
 
+                    b.HasIndex("Type_id");
+
                     b.ToTable("Tests");
+                });
+
+            modelBuilder.Entity("Exam_Portal.Models.TestQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Question_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Test_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Question_id");
+
+                    b.HasIndex("Test_id");
+
+                    b.ToTable("TestQuestions");
+                });
+
+            modelBuilder.Entity("Exam_Portal.Models.TestType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type_name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TestTypes");
                 });
 
             modelBuilder.Entity("Exam_Portal.Models.TotalResult", b =>
@@ -450,6 +497,27 @@ namespace Exam_Portal.Migrations
                     b.HasIndex("User_id");
 
                     b.ToTable("TotalResults");
+                });
+
+            modelBuilder.Entity("Exam_Portal.Models.UserGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Group_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("User_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Group_id");
+
+                    b.HasIndex("User_id");
+
+                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -553,7 +621,7 @@ namespace Exam_Portal.Migrations
 
             modelBuilder.Entity("Exam_Portal.Models.AssignedTest", b =>
                 {
-                    b.HasOne("Exam_Portal.Models.Group", "Group")
+                    b.HasOne("Exam_Portal.Models.Groups", "Group")
                         .WithMany("AssignedTests")
                         .HasForeignKey("Group_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -600,11 +668,11 @@ namespace Exam_Portal.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("Exam_Portal.Models.Group", b =>
+            modelBuilder.Entity("Exam_Portal.Models.Groups", b =>
                 {
                     b.HasOne("Exam_Portal.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Groups")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("Creator_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -636,32 +704,22 @@ namespace Exam_Portal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Exam_Portal.Models.Test", "Test")
-                        .WithMany("Questions")
-                        .HasForeignKey("Test_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Question_Type");
 
                     b.Navigation("Tag");
-
-                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("Exam_Portal.Models.QuestionResult", b =>
                 {
                     b.HasOne("Exam_Portal.Models.Option", "Option")
-                        .WithMany("QuestionResults")
+                        .WithMany()
                         .HasForeignKey("Option_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Exam_Portal.Models.Question", "Question")
-                        .WithMany("QuestionResults")
-                        .HasForeignKey("Question_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Exam_Portal.Models.TestQuestion", "TestQuestion")
+                        .WithMany()
+                        .HasForeignKey("TestQuestion_id");
 
                     b.HasOne("Exam_Portal.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("QuestionResults")
@@ -673,7 +731,18 @@ namespace Exam_Portal.Migrations
 
                     b.Navigation("Option");
 
-                    b.Navigation("Question");
+                    b.Navigation("TestQuestion");
+                });
+
+            modelBuilder.Entity("Exam_Portal.Models.Tag", b =>
+                {
+                    b.HasOne("Exam_Portal.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Tags")
+                        .HasForeignKey("Creator_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Exam_Portal.Models.Test", b =>
@@ -684,7 +753,34 @@ namespace Exam_Portal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Exam_Portal.Models.TestType", "TestType")
+                        .WithMany("Tests")
+                        .HasForeignKey("Type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("TestType");
+                });
+
+            modelBuilder.Entity("Exam_Portal.Models.TestQuestion", b =>
+                {
+                    b.HasOne("Exam_Portal.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("Question_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Exam_Portal.Models.Test", "Test")
+                        .WithMany("TestQuestions")
+                        .HasForeignKey("Test_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("Exam_Portal.Models.TotalResult", b =>
@@ -704,6 +800,25 @@ namespace Exam_Portal.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Test");
+                });
+
+            modelBuilder.Entity("Exam_Portal.Models.UserGroup", b =>
+                {
+                    b.HasOne("Exam_Portal.Models.Groups", "Group")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("Group_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Exam_Portal.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("User_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -765,19 +880,20 @@ namespace Exam_Portal.Migrations
 
                     b.Navigation("QuestionResults");
 
+                    b.Navigation("Tags");
+
                     b.Navigation("Tests");
 
                     b.Navigation("TotalResults");
+
+                    b.Navigation("UserGroups");
                 });
 
-            modelBuilder.Entity("Exam_Portal.Models.Group", b =>
+            modelBuilder.Entity("Exam_Portal.Models.Groups", b =>
                 {
                     b.Navigation("AssignedTests");
-                });
 
-            modelBuilder.Entity("Exam_Portal.Models.Option", b =>
-                {
-                    b.Navigation("QuestionResults");
+                    b.Navigation("UserGroups");
                 });
 
             modelBuilder.Entity("Exam_Portal.Models.Question", b =>
@@ -787,8 +903,6 @@ namespace Exam_Portal.Migrations
                     b.Navigation("DescriptiveResults");
 
                     b.Navigation("Options");
-
-                    b.Navigation("QuestionResults");
                 });
 
             modelBuilder.Entity("Exam_Portal.Models.Question_type", b =>
@@ -805,9 +919,14 @@ namespace Exam_Portal.Migrations
                 {
                     b.Navigation("AssignedTests");
 
-                    b.Navigation("Questions");
+                    b.Navigation("TestQuestions");
 
                     b.Navigation("TotalResults");
+                });
+
+            modelBuilder.Entity("Exam_Portal.Models.TestType", b =>
+                {
+                    b.Navigation("Tests");
                 });
 #pragma warning restore 612, 618
         }
