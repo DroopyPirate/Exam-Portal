@@ -26,6 +26,6 @@ namespace Exam_Portal.Models
         [ForeignKey("Question_id")]
         public Question Question { get; set; }
 
-        //public ICollection<QuestionResult> QuestionResults { get; set; }
+        public ICollection<QuestionResult> QuestionResults { get; set; }
     }
 }

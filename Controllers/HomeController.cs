@@ -1,5 +1,4 @@
-﻿using Exam_Portal.Enums;
-using Exam_Portal.Models;
+﻿using Exam_Portal.Models;
 using Exam_Portal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -44,132 +43,16 @@ namespace Exam_Portal.Controllers
             if(ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-                var user = await userManager.FindByEmailAsync(model.Email);
-                var role = await userManager.GetRolesAsync(user);
-                
+
                 if(result.Succeeded)
                 {
-                    if(!user.InitialLogin)
-                    {
-                        foreach (string _role in role)
-                        {
-                            if (_role == "Admin")
-                            {
-                                return RedirectToAction("Index", "Admin");
-                            }
-                            else if (_role == "Faculty")
-                            {
-                                return RedirectToAction("Index", "Faculty");
-                            }
-                            else if (_role == "Student")
-                            {
-                                return RedirectToAction("Groups", "Student");
-                            }
-                            else
-                            {
-                                return RedirectToAction("Index", "SuperAdmin");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return View("ChangePassword");
-                    }
+                    return RedirectToAction("Index", "Admin");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
 
             return View();
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> LogOut()
-        {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
-        [Authorize]
-        [HttpGet]
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
-        {
-            if(ModelState.IsValid)
-            {
-                var user = await userManager.GetUserAsync(User);
-
-                user.Password = model.NewPassword;
-                user.InitialLogin = false;
-
-                await userManager.UpdateAsync(user);
-                var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
-
-                if (!result.Succeeded)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                    return View();
-                }
-
-                var role = await userManager.GetRolesAsync(user);
-
-                foreach (string _role in role)
-                {
-                    if (_role == "Admin")
-                    {
-                        return RedirectToAction("Index", "Admin");
-                    }
-                    else if (_role == "Faculty")
-                    {
-                        return RedirectToAction("Index", "Faculty");
-                    }
-                    else
-                    {
-                        return RedirectToAction("Groups", "Student");
-                    }
-                }
-            }
-
-            return View(model);
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Profile()
-        {
-            var id = userManager.GetUserId(HttpContext.User);
-            var user = await userManager.FindByIdAsync(id);
-
-            return View(user);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> Profile(ApplicationUser model)   //To update Profile
-        {
-            var id = userManager.GetUserId(HttpContext.User);
-            var user = await userManager.FindByIdAsync(id);
-
-            user.Name = model.Name;
-            user.MiddleName = model.MiddleName;
-            user.LastName = model.LastName;
-            user.PhoneNumber = model.PhoneNumber;
-            user.Address = model.Address;
-            user.DOB = model.DOB;
-
-            await userManager.UpdateAsync(user);
-
-            return RedirectToAction("Profile", user);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

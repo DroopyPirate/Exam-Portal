@@ -64,17 +64,11 @@ namespace Exam_Portal.Models
         [DataType(DataType.Date)]
         public string DOB { get; set; }
 
-        public bool InitialLogin { get; set; } = true;
 
-
-
-        public List<Tag> Tags { get; set; }
 
         public ICollection<Test> Tests { get; set; }
 
-        public ICollection<Groups> Groups { get; set; }
-
-        public ICollection<UserGroup> UserGroups { get; set; }
+        public ICollection<Group> Groups { get; set; }
 
         public ICollection<QuestionResult> QuestionResults { get; set; }
 

@@ -13,14 +13,4 @@ namespace Exam_Portal.Enums
         CivilEngineering,
         InformationTechnology,
     }
-
-    public enum BranchEnumNullable
-    {
-        None,
-        ComputerEngineering,
-        MechanicalEngineering,
-        ElectricalEngineering,
-        CivilEngineering,
-        InformationTechnology,
-    }
 }

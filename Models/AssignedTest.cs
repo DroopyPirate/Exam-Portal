@@ -21,7 +21,7 @@ namespace Exam_Portal.Models
 
 
         [ForeignKey("Group_id")]
-        public Groups Group { get; set; }
+        public Group Group { get; set; }
 
         [ForeignKey("Test_id")]
         public Test Test { get; set; }
