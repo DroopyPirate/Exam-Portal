@@ -488,6 +488,7 @@ namespace Exam_Portal.Controllers
 
                 var modelTest = new TestExtended
                 {
+                    Id = test.Id,
                     Title = test.Title,
                     CreatorName = creator.Name + " " + creator.LastName,
                     NoOfQuestions = count

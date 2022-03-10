@@ -28,13 +28,13 @@ namespace Exam_Portal.ViewModels.Tests
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{hh:mm:ss}")]
         public TimeSpan? Duration { get; set; }
 
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime? StartDate { get; set; }
+        //[Required]
+        //[DataType(DataType.DateTime)]
+        public string StartDate { get; set; }
 
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime? EndDate { get; set; }
+        //[Required]
+        //[DataType(DataType.DateTime)] 
+        public string EndDate { get; set; }
 
         //public int? Marks { get; set; }
 

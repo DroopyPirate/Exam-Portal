@@ -1,0 +1,167 @@
+﻿@model Exam_Portal.ViewModels.Group.ViewGroupsViewModel
+@{
+    ViewData["Title"] = "Create Test";
+
+    if (this.User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Admin/_Layout.cshtml";
+    }
+    else if (this.User.IsInRole("Faculty"))
+    {
+        Layout = "~/Views/Faculty/_Layout.cshtml";
+    }
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Assign Test to Groups</h6>
+    </div>
+</div>
+
+@if (Model.StartDate == "-" && Model.EndDate == "-")
+{
+    <div class="form-group row">
+        <label asp-for="StartDate" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input type="datetime-local" asp-for="StartDate" id="startDate" class="form-control" placeholder="" required>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="EndDate" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input type="datetime-local" asp-for="EndDate" id="endDate" class="form-control" placeholder="" required>
+        </div>
+    </div>
+}
+
+
+<hr>
+<div class="card shadow mb-4">
+    <form asp-controller="" asp-action="" method="post">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary d-inline-block">All Groups</h6>
+            <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary mb-0 shadow-sm" style="float:right" id="submit">
+                Assign to Groups
+            </button>
+        </div>
+    </form>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col">Group Name</th>
+                        <th scope="col">Created by</th>
+                        <th scope="col">Student Count</th>
+                        <th scope="col">Branch</th>
+                        <th scope="col">Semester</th>
+                        <th scope="col">Division</th>
+                        <th scope="col">
+                            <div class="form-check">
+                                <label class="form-check-label" for="">Select All</label>
+                                <input class="form-check-input" type="checkbox" id="selectAll">
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th scope="col">Group Name</th>
+                        <th scope="col">Created by</th>
+                        <th scope="col">Student Count</th>
+                        <th scope="col">Branch</th>
+                        <th scope="col">Semester</th>
+                        <th scope="col">Division</th>
+                        <th scope="col">Assign</th>
+                    </tr>
+                </tfoot>
+
+                <tbody>
+                    @if (Model.GroupExtendeds.Any())
+                    {
+                        foreach (var group in Model.GroupExtendeds)
+                        {
+                            <tr>
+                                <td>@group.Name</td>
+                                <td>@group.CreatorName</td>
+                                <td>@group.StudentCount</td>
+                                <td>@group.Branch</td>
+                                <td>@group.Semester</td>
+                                <td>@group.Division</td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input select_checkbox" type="checkbox" name="select_checkbox_name" value="@group.Id">
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            @*<div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary float-right" id="submit">Create</button>
+                </div>*@
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    const selectAll_checkbox = document.getElementById("selectAll");
+
+    selectAll_checkbox.addEventListener("change", () => {
+        let select_checkbox = document.getElementsByClassName("select_checkbox");
+        if (selectAll_checkbox.checked == true) {
+            for (var i = 0; i < select_checkbox.length; i++) {
+                if (select_checkbox[i].checked == false) {
+                    select_checkbox[i].checked = true;
+                }
+            }
+        }
+        else if (selectAll_checkbox.checked == false) {
+            for (var i = 0; i < select_checkbox.length; i++) {
+                if (select_checkbox[i].checked == true) {
+                    select_checkbox[i].checked = false;
+                }
+            }
+        }
+    });
+
+    const submit = document.getElementById("submit");
+    const startDate = document.getElementById('startDate');
+    const endDate = document.getElementById('endDate');
+
+    submit.addEventListener("click", (e) => {
+        e.preventDefault();
+        let flag = confirm("Yo want to assign test to these Groups?");
+        if (flag == false) {
+            return;
+        }
+        let yourArray = [];
+        $("input:checkbox[name='select_checkbox_name']:checked").each(function () {
+            yourArray.push($(this).val());
+        });
+        yourArray.push(endDate.value).toString();
+        yourArray.push(startDate.value).toString();
+        let id = @ViewContext.RouteData.Values["id"];
+        let str_id = id.toString();
+        yourArray.push(str_id);
+        $.ajax({
+            url: '@Url.Action("AssignTest", "Test")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify(yourArray),
+            success: function (result) {
+                if (result.status == true) {
+                    //alert("The students are removed");
+                    window.location = '@Url.Action("TestDetails", "Test", new { id = ViewContext.RouteData.Values["id"]})';
+                }
+            }
+        });
+    });
+
+</script>

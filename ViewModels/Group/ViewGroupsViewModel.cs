@@ -14,6 +14,9 @@ namespace Exam_Portal.ViewModels.Group
         }
 
         public List<GroupExtended> GroupExtendeds { get; set; }
+        // To take dates while assigning Test to Groups
+        public string StartDate { get; set; } = "-";
+        public string EndDate { get; set; } = "-";
     }
 
     public class GroupExtended: Groups

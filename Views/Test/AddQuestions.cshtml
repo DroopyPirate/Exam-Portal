@@ -96,12 +96,12 @@
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
                                 <div class="form-group row">
                                     <div class="col-sm-12">
-                                        <label asp-for="Tag_name" class="col-form-label"></label>
-                                        <select asp-for="Tag_name" class="custom-select mr-sm-2" id="tag_select" required>
+                                        <label asp-for="Tag_id" class="col-form-label"></label>
+                                        <select asp-for="Tag_id" class="custom-select mr-sm-2" id="tag_select" required>
                                             <option value="-1">Select your answer</option>
                                             @foreach (var tag in Model.Tags)
                                             {
-                                                <option>@tag.Tag_name</option>
+                                                <option value="@tag.Id">@tag.Tag_name</option>
                                             }
                                         </select>
                                     </div>
@@ -123,6 +123,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="form-group row" hidden>
+                <label asp-for="Test_id" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input type="number" min="1" asp-for="Test_id" class="form-control" placeholder="" value="@Model.Test_id">
                 </div>
             </div>
 
@@ -220,12 +227,12 @@
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
                                 <div class="form-group row">
                                     <div class="col-sm-12">
-                                        <label asp-for="Tag_name" class="col-form-label">Tag</label>
-                                        <select asp-for="Tag_name" class="custom-select mr-sm-2" id="tag_select" required>
+                                        <label asp-for="Tag_id" class="col-form-label">Tag</label>
+                                        <select asp-for="Tag_id" class="custom-select mr-sm-2" id="tag_select" required>
                                             <option value="-1">Select your answer</option>
                                             @foreach (var tag in Model.Tags)
                                             {
-                                                <option>@tag.Tag_name</option>
+                                                <option value="@tag.Id">@tag.Tag_name</option>
                                             }
                                         </select>
                                     </div>

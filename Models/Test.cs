@@ -29,14 +29,14 @@ namespace Exam_Portal.Models
         public TimeSpan? Duration { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
         [DisplayName("Start Date")]
-        public DateTime? StartDate { get; set; }
+        public string StartDate { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
         [DisplayName("End Date")]
-        public DateTime? EndDate { get; set; }
+        public string EndDate { get; set; }
 
         public int? Marks { get; set; }
 
