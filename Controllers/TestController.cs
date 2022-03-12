@@ -61,16 +61,13 @@ namespace Exam_Portal.Controllers
         [HttpGet]
         public async Task<IActionResult> TestDetails(int id)
         {
-            var testList = (from t in context.Tests
-                            where t.Id == id select t).ToList();
-            var test = testList[0];
+            var test = context.Tests.Find(id);
 
             //Check if test is created by LoggedIn User
             int user_id = Convert.ToInt32(userManager.GetUserId(HttpContext.User));
             bool createdByUser = (test.Faculty_id == user_id); //Check if test created by current user
 
-            test.TestType = (from tt in context.TestTypes 
-                             where tt.Id == test.Type_id select tt).ToList()[0];
+            test.TestType = context.TestTypes.Find(test.Type_id);
             //converted to list and appended first value as only one value exists
             int count = (from tq in context.TestQuestions
                          where tq.Test_id == test.Id
@@ -90,7 +87,9 @@ namespace Exam_Portal.Controllers
                                    select tq.Question_id).ToList(); //Questions of this test
             foreach(int q_id in testQuestionsId)
             {
-                model.Questions.Add(await context.Questions.FindAsync(q_id));
+                var question = await context.Questions.FindAsync(q_id);
+                question.Tag = await context.Tags.FindAsync(question.Tag_id);
+                model.Questions.Add(question);
             }
 
             //For Groups that are assigned this Test
@@ -264,6 +263,27 @@ namespace Exam_Portal.Controllers
             }
 
             return Json(new { status = true });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteTest(int id)
+        {
+            var test = context.Tests.Find(id);
+
+            context.Remove(test);
+            context.SaveChanges();
+
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            var roleList = await userManager.GetRolesAsync(user);
+
+            if(roleList.Contains("Faculty"))
+            {
+                return RedirectToAction("ViewTest", "Faculty");
+            }
+            else
+            {
+                return RedirectToAction("ViewTest", "Admin");
+            }       
         }
     }
 }

@@ -471,19 +471,101 @@ namespace Exam_Portal.Controllers
 
 
 
-
+ 
 
         [HttpGet]
-        public async Task<IActionResult> ViewTest()
+        public async Task<IActionResult> ViewMyTest()
         {
+            int user_id = Convert.ToInt32(userManager.GetUserId(HttpContext.User));
             var model = new ViewTestViewModel();  
-            var tests = (from t in context.Tests select t).ToList(); //Get all Tests
+            var tests = (from t in context.Tests 
+                         where t.Faculty_id == user_id select t).ToList(); //Get all Tests
+            List<int> inActiveList = new();
 
-            foreach(var test in tests)
+            var currentDate = DateTime.Now;
+            foreach (var t in tests)
+            {
+                if (t.EndDate != "-") 
+                {
+                    var endDate = Convert.ToDateTime(t.EndDate);
+                    if (t.isActive == false)
+                    {
+                        inActiveList.Add(tests.IndexOf(t));
+                    }
+                    else if (currentDate > endDate)
+                    {
+                        t.isActive = false;
+                        context.SaveChanges();
+                        inActiveList.Add(tests.IndexOf(t));
+                    }
+                }               
+            }
+
+            foreach(int i in inActiveList)
+            {
+                tests.RemoveAt(i);
+            }
+
+            foreach (var test in tests)
             {
                 var creator = await userManager.FindByIdAsync(test.Faculty_id.ToString());
-                int count = (from tq in context.TestQuestions 
-                             where tq.Test_id == test.Id 
+                int count = (from tq in context.TestQuestions
+                             where tq.Test_id == test.Id
+                             select tq).ToList().Count;
+
+                var modelTest = new TestExtended
+                {
+                    Id = test.Id,
+                    Title = test.Title,
+                    CreatorName = creator.Name + " " + creator.LastName,
+                    NoOfQuestions = count
+                };
+
+                model.TestExtendeds.Add(modelTest);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewOtherTest()
+        {
+            int user_id = Convert.ToInt32(userManager.GetUserId(HttpContext.User));
+            var model = new ViewTestViewModel();
+            var tests = (from t in context.Tests
+                         where t.Faculty_id != user_id
+                         select t).ToList(); //Get all Tests
+            List<int> inActiveList = new();
+
+            var currentDate = DateTime.Now;
+            foreach (var t in tests)
+            {
+                if (t.EndDate != "-")
+                {
+                    var endDate = Convert.ToDateTime(t.EndDate);
+                    if (t.isActive == false)
+                    {
+                        inActiveList.Add(tests.IndexOf(t));
+                    }
+                    else if (currentDate > endDate)
+                    {
+                        t.isActive = false;
+                        context.SaveChanges();
+                        inActiveList.Add(tests.IndexOf(t));
+                    }
+                }
+            }
+
+            foreach (int i in inActiveList)
+            {
+                tests.RemoveAt(i);
+            }
+
+            foreach (var test in tests)
+            {
+                var creator = await userManager.FindByIdAsync(test.Faculty_id.ToString());
+                int count = (from tq in context.TestQuestions
+                             where tq.Test_id == test.Id
                              select tq).ToList().Count();
 
                 var modelTest = new TestExtended

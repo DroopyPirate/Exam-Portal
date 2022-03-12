@@ -3,6 +3,7 @@ using Exam_Portal.Repository;
 using Exam_Portal.ViewModels;
 using Exam_Portal.ViewModels.Admin;
 using Exam_Portal.ViewModels.Group;
+using Exam_Portal.ViewModels.Tests;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace Exam_Portal.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Student")]
     public class StudentController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -32,7 +33,7 @@ namespace Exam_Portal.Controllers
         }
 
 
-        [Authorize(Roles = "Student")]
+        [HttpGet]
         public async Task<IActionResult> Groups()
         {
             var groups = (from g in context.Groups select g).ToList();  //Get all groups
@@ -66,7 +67,7 @@ namespace Exam_Portal.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Student")]
+        [HttpGet]
         public async Task<IActionResult> ViewGroup(int id)
         {
             var model = new GroupDetailsViewModel      //Getting the Group for Group details
@@ -96,6 +97,91 @@ namespace Exam_Portal.Controllers
                 model.Users.Clear();      //If list empty
             }
 
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewTest()
+        {
+            int user_id = Convert.ToInt32(userManager.GetUserId(HttpContext.User));
+
+            var userGroupIdList = (from ug in context.UserGroups
+                                   where ug.User_id == user_id 
+                                   select ug.Group_id).ToList();
+
+            var userTestIdList = (from at in context.AssignedTests
+                                  where userGroupIdList.Contains(at.Group_id) 
+                                  select at.Test_id).ToList();
+
+            var userTests = (from t in context.Tests
+                             where userTestIdList.Contains(t.Id)
+                             select t).ToList();
+
+            List<int> inActiveList = new();
+
+            var currentDate = DateTime.Now;
+            foreach (var t in userTests)
+            {
+                if (t.EndDate != "-")
+                {
+                    var endDate = Convert.ToDateTime(t.EndDate);
+                    if (t.isActive == false)
+                    {
+                        inActiveList.Add(userTests.IndexOf(t));
+                    }
+                    else if (currentDate > endDate)
+                    {
+                        t.isActive = false;
+                        context.SaveChanges();
+                        inActiveList.Add(userTests.IndexOf(t));
+                    }
+                }
+            }
+
+            foreach (int i in inActiveList)
+            {
+                userTests.RemoveAt(i);
+            }
+
+            var model = new ViewTestViewModel();
+
+            foreach (var test in userTests)
+            {
+                var creator = await userManager.FindByIdAsync(test.Faculty_id.ToString());
+                int count = (from tq in context.TestQuestions
+                             where tq.Test_id == test.Id
+                             select tq).ToList().Count;
+
+                var modelTest = new TestExtended
+                {
+                    Id = test.Id,
+                    Title = test.Title,
+                    CreatorName = creator.Name + " " + creator.LastName,
+                    NoOfQuestions = count
+                };
+
+                model.TestExtendeds.Add(modelTest);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult TestDetails(int id)
+        {
+            var test = context.Tests.Find(id);
+
+            test.TestType = context.TestTypes.Find(test.Type_id);
+            //converted to list and appended first value as only one value exists
+            int count = (from tq in context.TestQuestions
+                         where tq.Test_id == test.Id
+                         select tq).ToList().Count;
+
+            var model = new TestDetailsViewModel
+            {
+                Test = test,
+                NoOfQuestions = count,
+            };
             return View(model);
         }
     }
