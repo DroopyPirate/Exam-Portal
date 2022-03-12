@@ -1,23 +1,23 @@
-﻿@model Exam_Portal.ViewModels.Tests.CreateTestViewModel
-@{
-    ViewData["Title"] = "Create Test";
+﻿@*@model Exam_Portal.ViewModels.Tests.CreateTestViewModel
+    @{
+        ViewData["Title"] = "Create Test";
 
-    if (this.User.IsInRole("Admin"))
-    {
-        Layout = "~/Views/Admin/_Layout.cshtml";
+        if (this.User.IsInRole("Admin"))
+        {
+            Layout = "~/Views/Admin/_Layout.cshtml";
+        }
+        else if (this.User.IsInRole("Faculty"))
+        {
+            Layout = "~/Views/Faculty/_Layout.cshtml";
+        }
     }
-    else if (this.User.IsInRole("Faculty"))
-    {
-        Layout = "~/Views/Faculty/_Layout.cshtml";
-    }
-}
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Create Test</h6>
-    </div>
-    <div class="card-body">
-        <!-- Page Heading -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Create Test</h6>
+        </div>
+        <div class="card-body">*@
+<!-- Page Heading
 
         <form asp-controller="Test" asp-action="CreateTest" method="post" class="mt-3">
 
@@ -36,7 +36,7 @@
                 <label asp-for="Type_name" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <select asp-for="Type_name" class="custom-select mr-sm-2">
-                        @foreach(var testtype in Model.TestTypes) 
+                        @foreach(var testtype in Model.TestTypes)
                         {
                              <option>@testtype.Type_name</option>
                         }
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            @*<div class="form-group row">
+            <div class="form-group row">
                 <label asp-for="StartDate" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <input type="datetime-local" asp-for="StartDate" id="startDate" class="form-control" placeholder="">
@@ -63,7 +63,7 @@
                 <div class="col-sm-10">
                     <input type="datetime-local" asp-for="EndDate" id="endDate" class="form-control" placeholder="">
                 </div>
-            </div>*@
+            </div>
 
             <div class="form-group row">
                 <label asp-for="PassingMarks" class="col-sm-2 col-form-label"></label>
@@ -118,6 +118,148 @@
     });
 
     endDate.addEventListener('input',(event) => {
+        let start_date = new Date(startDate.value);
+        let end_date = new Date(event.target.value);
+        let current_date = new Date();
+        result_1 = (end_date < start_date);
+        result_2 = (end_date < current_date);
+
+        if (result_1) {
+            console.log("Hello");
+            submitBtn.disabled = true;
+        }
+
+        if (result_2) {
+            console.log("Hello");
+            submitBtn.disabled = true;
+        }
+
+        if (result_1 == false && result_2 == false) {
+            submitBtn.disabled = false;
+        }
+
+    });
+
+
+</script>-->
+
+@model Exam_Portal.ViewModels.Tests.CreateTestViewModel
+@{ ViewData["Title"] = "Create Test";
+
+                if (this.User.IsInRole("Admin"))
+                {
+                    Layout = "~/Views/Admin/_Layout.cshtml";
+                }
+                else if (this.User.IsInRole("Faculty"))
+                {
+                    Layout = "~/Views/Faculty/_Layout.cshtml";
+                } }
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Create Test</h6>
+    </div>
+    <div class="card-body">
+        <!-- Page Heading -->
+
+        <form asp-controller="Test" asp-action="CreateTest" method="post" class="mt-3">
+
+            <div class="form-group row">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Title" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="Title" class="form-control" placeholder="Enter Test Name.">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Type_name" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <select asp-for="Type_name" class="custom-select mr-sm-2">
+                        @foreach (var testtype in Model.TestTypes)
+                        {
+            <option>@testtype.Type_name</option>}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Duration" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input type="time" id="Duration" min="00:00" max="05:00" asp-for="Duration" class="form-control" placeholder="">
+                </div>
+            </div>
+
+            @*<div class="form-group row">
+                    <label asp-for="StartDate" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input type="datetime-local" asp-for="StartDate" id="startDate" class="form-control" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="EndDate" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input type="datetime-local" asp-for="EndDate" id="endDate" class="form-control" placeholder="">
+                    </div>
+                </div>*@
+
+            <div class="form-group row">
+                <label asp-for="PassingMarks" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="PassingMarks" class="form-control" placeholder="">
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" id="submitBtn" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let startDate = document.getElementById('startDate');
+        date_today = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        startDate.setAttribute('min', date_today);
+    });
+
+    let submitBtn = document.getElementById('submitBtn');
+    const startDate = document.getElementById('startDate');
+    const endDate = document.getElementById('endDate');
+    startDate.addEventListener('input', (event) => {
+        let start_date = new Date(event.target.value);
+        let current_date = new Date();
+        let end_date = new Date(endDate.value);
+        result1 = (start_date < current_date);
+        result2 = (end_date < start_date);
+
+        if (result1) {
+            console.log("Hello");
+            submitBtn.disabled = true;
+        }
+
+        if (result2) {
+            console.log("Hello");
+            submitBtn.disabled = true;
+        }
+
+        if (result1 == false && result2 == false) {
+            submitBtn.disabled = false;
+        }
+
+
+    });
+
+    endDate.addEventListener('input', (event) => {
         let start_date = new Date(startDate.value);
         let end_date = new Date(event.target.value);
         let current_date = new Date();
