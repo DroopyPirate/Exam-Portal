@@ -46,6 +46,8 @@ namespace Exam_Portal.Models
         //[Required]
         public string Language { get; set; } = "";
 
+        public bool isActive { get; set; }
+
 
 
         [ForeignKey("Faculty_id")]

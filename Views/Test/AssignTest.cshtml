@@ -26,6 +26,7 @@
             <input type="datetime-local" asp-for="StartDate" id="startDate" class="form-control" placeholder="" required>
         </div>
     </div>
+    <p id="startDateValidation" style="color: red; margin-left: 212px;"></p>
 
     <div class="form-group row">
         <label asp-for="EndDate" class="col-sm-2 col-form-label"></label>
@@ -33,6 +34,7 @@
             <input type="datetime-local" asp-for="EndDate" id="endDate" class="form-control" placeholder="" required>
         </div>
     </div>
+    <p id="endDateValidation" style="color: red; margin-left: 212px;"></p>
 }
 
 
@@ -110,6 +112,12 @@
 
 <script>
 
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let startDate = document.getElementById('startDate');
+        date_today = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        startDate.setAttribute('min', date_today);
+    });
+
     const selectAll_checkbox = document.getElementById("selectAll");
 
     selectAll_checkbox.addEventListener("change", () => {
@@ -162,6 +170,59 @@
                 }
             }
         });
+    });
+
+
+    let submitBtn = document.getElementById('submit');
+    //const startDate = document.getElementById('startDate');
+    //const endDate = document.getElementById('endDate');
+    startDate.addEventListener('input', (event) => {
+        let start_date = new Date(event.target.value);
+        let current_date = new Date();
+        let end_date = new Date(endDate.value);
+        result1 = (start_date < current_date);
+        result2 = (end_date < start_date);
+
+        if (result1) {
+            document.getElementById("startDateValidation").innerText = "Start Date should be larger than current Date and Time";
+            submitBtn.disabled = true;
+        }
+
+        if (result2) {
+            document.getElementById("startDateValidation").innerText = "Start Date should be smaller than End Date";
+            submitBtn.disabled = true;
+        }
+
+        if (result1 == false && result2 == false) {
+            document.getElementById("startDateValidation").innerText = "";
+            submitBtn.disabled = false;
+        }
+
+
+    });
+
+    endDate.addEventListener('input', (event) => {
+        let start_date = new Date(startDate.value);
+        let end_date = new Date(event.target.value);
+        let current_date = new Date();
+        result_1 = (end_date < start_date);
+        result_2 = (end_date < current_date);
+
+        if (result_1) {
+            document.getElementById("endDateValidation").innerText = "End Date should be larger than Start Date";
+            submitBtn.disabled = true;
+        }
+
+        if (result_2) {
+            document.getElementById("endDateValidation").innerText = "End Date should be larger than current Date and Time";
+            submitBtn.disabled = true;
+        }
+
+        if (result_1 == false && result_2 == false) {
+            document.getElementById("endDateValidation").innerText = "";
+            submitBtn.disabled = false;
+        }
+
     });
 
 </script>

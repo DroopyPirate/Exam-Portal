@@ -84,61 +84,61 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        let startDate = document.getElementById('startDate');
-        date_today = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        startDate.setAttribute('min', date_today);
-    });
+    //document.addEventListener('DOMContentLoaded', (event) => {
+    //    let startDate = document.getElementById('startDate');
+    //    date_today = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+    //    startDate.setAttribute('min', date_today);
+    //});
 
-    let submitBtn = document.getElementById('submitBtn');
-    const startDate = document.getElementById('startDate');
-    const endDate = document.getElementById('endDate');
-    startDate.addEventListener('input', (event) => {
-        let start_date = new Date(event.target.value);
-        let current_date = new Date();
-        let end_date = new Date(endDate.value);
-        result1 = (start_date < current_date);
-        result2 = (end_date < start_date);
+    //let submitBtn = document.getElementById('submitBtn');
+    //const startDate = document.getElementById('startDate');
+    //const endDate = document.getElementById('endDate');
+    //startDate.addEventListener('input', (event) => {
+    //    let start_date = new Date(event.target.value);
+    //    let current_date = new Date();
+    //    let end_date = new Date(endDate.value);
+    //    result1 = (start_date < current_date);
+    //    result2 = (end_date < start_date);
 
-        if (result1) {
-            console.log("Hello");
-            submitBtn.disabled = true;
-        }
+    //    if (result1) {
+    //        console.log("Hello");
+    //        submitBtn.disabled = true;
+    //    }
 
-        if (result2) {
-            console.log("Hello");
-            submitBtn.disabled = true;
-        }
+    //    if (result2) {
+    //        console.log("Hello");
+    //        submitBtn.disabled = true;
+    //    }
 
-        if (result1 == false && result2 == false) {
-            submitBtn.disabled = false;
-        }
+    //    if (result1 == false && result2 == false) {
+    //        submitBtn.disabled = false;
+    //    }
 
 
-    });
+    //});
 
-    endDate.addEventListener('input',(event) => {
-        let start_date = new Date(startDate.value);
-        let end_date = new Date(event.target.value);
-        let current_date = new Date();
-        result_1 = (end_date < start_date);
-        result_2 = (end_date < current_date);
+    //endDate.addEventListener('input',(event) => {
+    //    let start_date = new Date(startDate.value);
+    //    let end_date = new Date(event.target.value);
+    //    let current_date = new Date();
+    //    result_1 = (end_date < start_date);
+    //    result_2 = (end_date < current_date);
 
-        if (result_1) {
-            console.log("Hello");
-            submitBtn.disabled = true;
-        }
+    //    if (result_1) {
+    //        console.log("Hello");
+    //        submitBtn.disabled = true;
+    //    }
 
-        if (result_2) {
-            console.log("Hello");
-            submitBtn.disabled = true;
-        }
+    //    if (result_2) {
+    //        console.log("Hello");
+    //        submitBtn.disabled = true;
+    //    }
 
-        if (result_1 == false && result_2 == false) {
-            submitBtn.disabled = false;
-        }
+    //    if (result_1 == false && result_2 == false) {
+    //        submitBtn.disabled = false;
+    //    }
 
-    });
+    //});
 
 
 </script>-->
