@@ -1,6 +1,6 @@
 ﻿@model Exam_Portal.ViewModels.Admin.ViewTestViewModel
 @{
-    ViewData["Title"] = "View My Tests";
+    ViewData["Title"] = "Given Tests";
 }
 
 <div class="card shadow mb-4">
@@ -14,7 +14,7 @@
                     <tr>
                         <th scope="col">Test Name</th>
                         <th scope="col">Created by</th>
-                        <th scope="col">No of Questions</th>
+                        <th scope="col">Question Test</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -22,7 +22,7 @@
                     <tr>
                         <th scope="col">Test Name</th>
                         <th scope="col">Created by</th>
-                        <th scope="col">No of Questions</th>
+                        <th scope="col">Question Test</th>
                         <th scope="col"></th>
                     </tr>
                 </tfoot>
@@ -36,8 +36,9 @@
                                 <td>@test.CreatorName</td>
                                 <td>@test.NoOfQuestions</td>
                                 <td>
-                                    <a class="btn btn-primary" asp-controller="Test" asp-action="TestDetails" asp-route-id="@test.Id">
-                                        View
+                                    <a class="btn btn-primary" asp-controller="Student" asp-action="ViewResult" 
+                                       asp-route-id="@test.Id">
+                                        View Result
                                     </a>
                                 </td>
 

@@ -297,5 +297,58 @@ namespace Exam_Portal.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult TestResult()
+        {
+            var userId = Convert.ToInt32(userManager.GetUserId(HttpContext.User));
+            var tests = (from t in context.Tests
+                         where t.Faculty_id == userId && t.StartDate != "-" && t.EndDate != "-"
+                         select t).ToList(); //Get all tests created by this user
+
+            // Remove tests that are not started yet.
+            var currentDate = DateTime.Now;
+            List<int> removeList = new();
+            foreach (var t in tests)
+            {
+                var startDate = Convert.ToDateTime(t.StartDate);
+                if (startDate > currentDate)
+                {
+                    removeList.Add(tests.IndexOf(t));
+                }
+            }
+            foreach (var i in removeList)
+            {
+                tests.RemoveAt(i);
+            }
+
+            string Creator = "";
+            int noOfQuestions = 0;
+            string type = "";
+            var model = new ViewTestViewModel();
+
+            foreach (var t in tests)
+            {
+                var user = context.ApplicationUser.Find(t.Faculty_id);
+                Creator = user.Name + " " + user.LastName;
+                noOfQuestions = (from tq in context.TestQuestions
+                                 where tq.Test_id == t.Id
+                                 select tq.Id).Count();
+                type = (from tt in context.TestTypes
+                        where tt.Id == t.Type_id
+                        select tt.Type_name).ToList()[0];
+                var extendedTest = new TestExtended
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    CreatorName = Creator,
+                    NoOfQuestions = noOfQuestions,
+                    Type_name = type,
+                };
+                model.TestExtendeds.Add(extendedTest);
+            }
+
+            return View(model);
+        }
     }
 }

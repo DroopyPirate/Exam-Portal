@@ -57,7 +57,7 @@ namespace Exam_Portal.Models
         public TestType TestType { get; set; }
 
         //public ICollection<Question> Questions { get; set; }
-        public ICollection<TestQuestion> TestQuestions { get; set; }
+        public List<TestQuestion> TestQuestions { get; set; }
 
         public ICollection<AssignedTest> AssignedTests { get; set; }
 

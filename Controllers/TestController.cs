@@ -248,6 +248,7 @@ namespace Exam_Portal.Controllers
             var test = context.Tests.Find(test_id);
             test.StartDate = start_Date;
             test.EndDate = end_Date;
+            test.isActive = true;
             context.SaveChanges();
 
             foreach(var a in array)
