@@ -165,7 +165,7 @@
                         <div class="form-group row">
                             <div class="col-sm-12">
                                 <label asp-for="Question" class="col-form-label">Question</label>
-                                <input type="text" asp-for="Question" class="form-control" placeholder="" required>
+                                <input type="text" name="Question" class="form-control" placeholder="" required>
                             </div>
                         </div>
 
@@ -174,7 +174,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label asp-for="Option1" class="col-form-label">Option 1</label>
-                                        <input type="text" asp-for="Option1" class="form-control" placeholder="" required>
+                                        <input type="text" name="Option1" class="form-control" placeholder="" required>
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +183,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label asp-for="Option2" class="col-form-label">Option 2</label>
-                                        <input type="text" asp-for="Option2" class="form-control" placeholder="" required>
+                                        <input type="text" name="Option2" class="form-control" placeholder="" required>
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label asp-for="Option3" class="col-form-label">Option 3</label>
-                                        <input type="text" asp-for="Option3" class="form-control" placeholder="" required>
+                                        <input type="text" name="Option3" class="form-control" placeholder="" required>
                                     </div>
                                 </div>
                             </div>
@@ -202,7 +202,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label asp-for="Option4" class="col-form-label">Option 4</label>
-                                        <input type="text" asp-for="Option4" class="form-control" placeholder="" required>
+                                        <input type="text" name="Option4" class="form-control" placeholder="" required>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label asp-for="Answer" class="col-form-label">Answer</label>
-                                        <select asp-for="Answer" class="mr-sm-2 custom-select" id="select" required>
+                                        <select name="Answer" class="mr-sm-2 custom-select" id="select" required>
                                             <option value="-1">Select your answer</option>
                                             <option value="0">1</option>
                                             <option value="1">2</option>
@@ -228,7 +228,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label asp-for="Tag_id" class="col-form-label">Tag</label>
-                                        <select asp-for="Tag_id" class="custom-select mr-sm-2" id="tag_select" required>
+                                        <select name="Tag_id" class="custom-select mr-sm-2" id="tag_select" required>
                                             <option value="-1">Select your answer</option>
                                             @foreach (var tag in Model.Tags)
                                             {
@@ -242,7 +242,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label asp-for="Marks" class="col-form-label">Marks</label>
-                                        <input type="number" min="1" asp-for="Marks" class="form-control" placeholder="" required>
+                                        <input type="number" min="1" name="Marks" class="form-control" placeholder="" required>
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +250,7 @@
                         <div class="form-group row">
                             <div class="col-sm-12">
                                 <label asp-for="Description" class="col-form-label">Description</label>
-                                <input type="text" asp-for="Description" class="form-control" placeholder="" required>
+                                <input type="text" name="Description" class="form-control" placeholder="" required>
                             </div>
                         </div>
                     </div>

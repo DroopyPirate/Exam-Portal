@@ -18,10 +18,13 @@ namespace Exam_Portal.Models
         [Required]
         public int TestQuestions_id { get; set; }
 
-        [Required]
-        public int Option_id { get; set; }
+        //[Required]
+        //public int Option_id { get; set; }
 
-        public bool Is_right { get; set; }
+        [Required]
+        public string User_answer { get; set; }
+
+        public int Marks { get; set; }
 
         //[DataType(DataType.Time)]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
@@ -32,10 +35,7 @@ namespace Exam_Portal.Models
         [ForeignKey("User_id")]
         public ApplicationUser ApplicationUser { get; set; }
 
-        [ForeignKey("TestQuestion_id")]
+        [ForeignKey("TestQuestions_id")]
         public TestQuestion TestQuestion { get; set; }
-
-        [ForeignKey("Option_id")]
-        public Option Option { get; set; }
     }
 }

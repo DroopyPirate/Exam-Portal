@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -21,18 +22,23 @@ namespace Exam_Portal.Models
         public int Question_type_id { get; set; }
 
         [Required]
+        [DisplayName("Question")]
         public string Question_ { get; set; }
 
         [Required]
+        [DisplayName("Option 1")]
         public string Option1 { get; set; }
 
         [Required]
+        [DisplayName("Option 2")]
         public string Option2 { get; set; }
 
         [Required]
+        [DisplayName("Option 3")]
         public string Option3 { get; set; }
 
         [Required]
+        [DisplayName("Option 4")]
         public string Option4 { get; set; }
 
         [Required]

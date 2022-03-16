@@ -1,0 +1,357 @@
+﻿@model Exam_Portal.ViewModels.Result.ViewResultViewModel
+@{
+    ViewData["Title"] = "View Result";
+}
+
+
+
+@if (Model.IsActive)
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary d-sm-inline-block">Test Details</h6>
+            <p style="color: red; display: inline;">(Test is still active. Results will be shown after End Date)</p>
+        </div>
+        <!-- Card Content - Collapse -->
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Tests.Title" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Tests.Title" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Tests.Duration" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Tests.Duration" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Tests.TestType.Type_name" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Tests.TestType.Type_name" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Tests.PassingMarks" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Tests.PassingMarks" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Tests.StartDate" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Tests.StartDate" class="form-control" id="startDate" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                        <div class="form-group row">
+                            <label asp-for="@Model.Tests.EndDate" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Tests.EndDate" class="form-control" id="endDate" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    @if (Model.TestGiven)
+    {
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary d-sm-inline-block">Test Details</h6>
+            </div>
+            <!-- Card Content - Collapse -->
+
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.Title" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.Title" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.Duration" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.Duration" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.TestType.Type_name" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.TestType.Type_name" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.PassingMarks" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.PassingMarks" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Marks Obtained</label>
+                                <div class="col-sm-10">
+                                    <input type="text" value="@Model.TotalResult.Marks_obtained / @Model.Tests.Marks" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Result</label>
+                                @if (Model.TotalResult.Result)
+                                {
+                                    <div class="col-sm-10">
+                                        <input type="text" style="color:limegreen" id="count" class="form-control" value="Pass" disabled>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm-10" style="background-color: orangered">
+                                        <input type="text" style="color:red" id="count" class="form-control" value="Fail" disabled>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.StartDate" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.StartDate" class="form-control" id="startDate" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.EndDate" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.EndDate" class="form-control" id="endDate" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        int srNo = 0;
+        @foreach (var question in Model.StudentQuestionResults)
+        {
+            srNo++;
+            <div class="questions" @*style="overflow-y:auto;"*@>
+                @*<div class="form-group row">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>*@
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Question No. @srNo</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <label asp-for="@question.Question_" class="col-form-label"></label>
+                                <input type="text" asp-for="@question.Question_" class="form-control" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label asp-for="@question.Option1" class="col-form-label"></label>
+                                        <input type="text" asp-for="@question.Option1" class="form-control" placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label asp-for="@question.Option2" class="col-form-label"></label>
+                                        <input type="text" asp-for="@question.Option2" class="form-control" placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label asp-for="@question.Option3" class="col-form-label"></label>
+                                        <input type="text" asp-for="@question.Option3" class="form-control" placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label asp-for="@question.Option4" class="col-form-label"></label>
+                                        <input type="text" asp-for="@question.Option4" class="form-control" placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label asp-for="@question.Answer" class="col-form-label"></label>
+                                        <input type="text" asp-for="@question.Answer" class="form-control" placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label asp-for="@question.User_answer" class="col-form-label"></label>
+                                        <input type="text" asp-for="@question.User_answer" class="form-control" placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label asp-for="@question.Obtained_Marks" class="col-form-label"></label>
+                                        <input type="text" asp-for="@question.Obtained_Marks" class="form-control" 
+                                               value="@question.Obtained_Marks / @question.Marks" placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                @if (@question.Obtained_Marks == 0)
+                                {
+                                    <label class="col-form-label">Result</label>
+                                    <input type="text" value="Incorrect" class="form-control" placeholder="" disabled>
+                                }
+                                else
+                                {
+                                    <label class="col-form-label">Result</label>
+                                    <input type="text" value="Correct" class="form-control" placeholder="" disabled>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+    else
+    {
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary d-sm-inline-block">Test Details</h6>
+                <p style="color: red; display: inline;">(You have not appeared for the exam.)</p>
+            </div>
+            <!-- Card Content - Collapse -->
+
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.Title" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.Title" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.Duration" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.Duration" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.TestType.Type_name" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.TestType.Type_name" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.PassingMarks" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.PassingMarks" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.StartDate" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.StartDate" class="form-control" id="startDate" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <div class="form-group row">
+                                <label asp-for="@Model.Tests.EndDate" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="@Model.Tests.EndDate" class="form-control" id="endDate" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

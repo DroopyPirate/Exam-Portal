@@ -22,6 +22,9 @@ namespace Exam_Portal.Models
         public int Total_marks { get; set; }
 
         [Required]
+        public int Marks_obtained { get; set; }
+
+        [Required]
         public bool Result { get; set; }
 
 

@@ -480,7 +480,7 @@ namespace Exam_Portal.Controllers
             var model = new ViewTestViewModel();  
             var tests = (from t in context.Tests 
                          where t.Faculty_id == user_id select t).ToList(); //Get all Tests
-            List<int> inActiveList = new();
+            List<Test> inActiveList = new();
 
             var currentDate = DateTime.Now;
             foreach (var t in tests)
@@ -490,20 +490,20 @@ namespace Exam_Portal.Controllers
                     var endDate = Convert.ToDateTime(t.EndDate);
                     if (t.isActive == false)
                     {
-                        inActiveList.Add(tests.IndexOf(t));
+                        inActiveList.Add(t);
                     }
                     else if (currentDate > endDate)
                     {
                         t.isActive = false;
                         context.SaveChanges();
-                        inActiveList.Add(tests.IndexOf(t));
+                        inActiveList.Add(t);
                     }
                 }               
             }
 
-            foreach(int i in inActiveList)
+            foreach(var t in inActiveList)
             {
-                tests.RemoveAt(i);
+                tests.Remove(t);
             }
 
             foreach (var test in tests)
@@ -535,7 +535,7 @@ namespace Exam_Portal.Controllers
             var tests = (from t in context.Tests
                          where t.Faculty_id != user_id
                          select t).ToList(); //Get all Tests
-            List<int> inActiveList = new();
+            List<Test> inActiveList = new();
 
             var currentDate = DateTime.Now;
             foreach (var t in tests)
@@ -545,20 +545,20 @@ namespace Exam_Portal.Controllers
                     var endDate = Convert.ToDateTime(t.EndDate);
                     if (t.isActive == false)
                     {
-                        inActiveList.Add(tests.IndexOf(t));
+                        inActiveList.Add(t);
                     }
                     else if (currentDate > endDate)
                     {
                         t.isActive = false;
                         context.SaveChanges();
-                        inActiveList.Add(tests.IndexOf(t));
+                        inActiveList.Add(t);
                     }
                 }
             }
 
-            foreach (int i in inActiveList)
+            foreach (var t in inActiveList)
             {
-                tests.RemoveAt(i);
+                tests.Remove(t);
             }
 
             foreach (var test in tests)
@@ -577,6 +577,59 @@ namespace Exam_Portal.Controllers
                 };
 
                 model.TestExtendeds.Add(modelTest);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult TestResult()
+        {
+            var tests = (from t in context.Tests 
+                         where t.StartDate != "-" && t.EndDate != "-"
+                         select t).ToList(); //Get all tests
+
+            // Remove tests that are not started yet.
+            var currentDate = DateTime.Now;
+            List<int> removeList = new();
+            foreach(var t in tests)
+            {
+                var startDate = Convert.ToDateTime(t.StartDate);
+                if(startDate > currentDate)
+                {
+                    removeList.Add(tests.IndexOf(t));
+                }
+            }
+            foreach(var i in removeList)
+            {
+                tests.RemoveAt(i);
+            }
+
+
+            string Creator = "";
+            int noOfQuestions = 0;
+            string type = "";
+            var model = new ViewTestViewModel();
+
+            foreach (var t in tests)
+            {
+                var user = context.ApplicationUser.Find(t.Faculty_id);
+                Creator = user.Name + " " + user.LastName;
+                noOfQuestions = (from tq in context.TestQuestions 
+                                 where tq.Test_id == t.Id
+                                 select tq.Id).Count();
+                type = (from tt in context.TestTypes
+                        where tt.Id == t.Type_id
+                        select tt.Type_name).ToList()[0];
+                var extendedTest = new TestExtended
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    CreatorName = Creator,
+                    NoOfQuestions = noOfQuestions,
+                    Type_name = type,
+                };
+                model.TestExtendeds.Add(extendedTest);
             }
 
             return View(model);

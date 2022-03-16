@@ -20,5 +20,6 @@ namespace Exam_Portal.ViewModels.Admin
     {
         public int? NoOfQuestions { get; set; }
         public string CreatorName { get; set; }
+        public string Type_name { get; set; }
     } 
 }

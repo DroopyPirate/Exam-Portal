@@ -1,0 +1,188 @@
+﻿@model Exam_Portal.ViewModels.Result.ResultsViewModel
+@{
+    ViewData["Title"] = "View Result";
+
+    if (this.User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Admin/_Layout.cshtml";
+    }
+    else if (this.User.IsInRole("Faculty"))
+    {
+        Layout = "~/Views/Faculty/_Layout.cshtml";
+    }
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary d-sm-inline-block">Test Details</h6>
+    </div>
+    <!-- Card Content - Collapse -->
+
+    <div class="card-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                    <div class="form-group row">
+                        <label asp-for="@Model.Test.Title" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="@Model.Test.Title" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                    <div class="form-group row">
+                        <label asp-for="@Model.Test.Duration" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="@Model.Test.Duration" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                    <div class="form-group row">
+                        <label asp-for="@Model.Test.TestType.Type_name" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="@Model.Test.TestType.Type_name" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                    <div class="form-group row">
+                        <label asp-for="@Model.Test.PassingMarks" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="@Model.Test.PassingMarks" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                    <div class="form-group row">
+                        <label asp-for="@Model.Test.StartDate" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="@Model.Test.StartDate" class="form-control" id="startDate" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                    <div class="form-group row">
+                        <label asp-for="@Model.Test.EndDate" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="@Model.Test.EndDate" class="form-control" id="endDate" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.IsActive)
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary d-inline-block">Student Results</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Division</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Marks</th>
+                            <th scope="col">Result</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Division</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Marks</th>
+                            <th scope="col">Result</th>
+                        </tr>
+
+                    </tfoot>
+
+                    <tbody>
+                        @foreach (var userResult in Model.UserResults)
+                        {
+                            <tr>
+                                <td>@userResult.FullName</td>
+                                <td>@userResult.Division</td>
+                                <td>@userResult.Semester</td>
+                                @if (userResult.GivenTest)
+                                {
+                                    <td>@userResult.Marks</td>
+                                    <td>@userResult.Result</td>
+                                }
+                                else
+                                {
+                                    <td colspan="2" style="color: red">Student has not appeared for the exam yet.</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary d-inline-block">Student Results</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Division</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Marks</th>
+                            <th scope="col">Result</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Division</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Marks</th>
+                            <th scope="col">Result</th>
+                        </tr>
+
+                    </tfoot>
+
+                    <tbody>
+                        @foreach (var userResult in Model.UserResults)
+                        {
+                            <tr>
+                                <td>@userResult.FullName</td>
+                                <td>@userResult.Division</td>
+                                <td>@userResult.Semester</td>
+                                @if (userResult.GivenTest)
+                                {
+                                    <td>@userResult.Marks</td>
+                                    <td>@userResult.Result</td>
+                                }
+                                else
+                                {
+                                    <td colspan="2" style="color: red">Student has not appeared for the exam.</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
