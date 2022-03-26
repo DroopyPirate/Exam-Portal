@@ -146,7 +146,7 @@ else
                                 }
                                 else
                                 {
-                                    <div class="col-sm-10" style="background-color: orangered">
+                                    <div class="col-sm-10">
                                         <input type="text" style="color:red" id="count" class="form-control" value="Fail" disabled>
                                     </div>
                                 }
@@ -245,19 +245,35 @@ else
                                 </div>
                             </div>
 
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <label asp-for="@question.User_answer" class="col-form-label"></label>
-                                        <input type="text" asp-for="@question.User_answer" class="form-control" placeholder="" disabled>
+                            @if (question.User_answer == "")
+                            {
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <label asp-for="@question.User_answer" class="col-form-label"></label>
+                                            <input type="text" value="Question not attempted" style="color: red" class="form-control" placeholder="" disabled>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <label asp-for="@question.User_answer" class="col-form-label"></label>
+                                            <input type="text" asp-for="@question.User_answer" class="form-control" placeholder="" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <label asp-for="@question.Obtained_Marks" class="col-form-label"></label>
-                                        <input type="text" asp-for="@question.Obtained_Marks" class="form-control" 
+                                        <input type="text" asp-for="@question.Obtained_Marks" class="form-control"
                                                value="@question.Obtained_Marks / @question.Marks" placeholder="" disabled>
                                     </div>
                                 </div>

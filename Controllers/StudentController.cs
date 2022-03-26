@@ -122,7 +122,7 @@ namespace Exam_Portal.Controllers
                                    where userTestIdList.Contains(tr.Test_id) && tr.User_id == user_id
                                    select tr.Test_id).ToList();  //Get all given tests Id
 
-            List<int> inActiveList = new();
+            List<Test> inActiveList = new();
 
             var currentDate = DateTime.Now;
             foreach (var t in userTests)
@@ -134,14 +134,14 @@ namespace Exam_Portal.Controllers
                     {
                         t.isActive = false;
                         context.SaveChanges();
-                        inActiveList.Add(userTests.IndexOf(t));
+                        inActiveList.Add(t);
                     }
                 }
             }
 
-            foreach (int i in inActiveList)
+            foreach (var t in inActiveList)
             {
-                userTests.RemoveAt(i);
+                userTests.Remove(t);
             }
 
             foreach(int i in givenTestIdList)
@@ -343,11 +343,12 @@ namespace Exam_Portal.Controllers
         }
 
         [HttpGet]
-        public IActionResult ViewResult(int id)
+        public IActionResult ViewResult(string id)
         {
+            int testID = Convert.ToInt32(id);
             var model = new ViewResultViewModel();
             int userId = Convert.ToInt32(userManager.GetUserId(HttpContext.User)); //get user Id
-            model.Tests = context.Tests.Find(id);  // get Test user appeared
+            model.Tests = context.Tests.Find(testID);  // get Test user appeared
             model.Tests.TestType = context.TestTypes.Find(model.Tests.Type_id); //get testType of test
 
             var currentDate = DateTime.Now;
@@ -360,7 +361,7 @@ namespace Exam_Portal.Controllers
             else { model.IsActive = false; }
 
             var totalResult = (from tr in context.TotalResults
-                               where tr.User_id == userId && tr.Test_id == id
+                               where tr.User_id == userId && tr.Test_id == testID
                                select tr).ToList();  // get result of test that user appeared.
             if (totalResult.Count == 0)  // check if user has given the test
             {

@@ -18,7 +18,7 @@
     </div>
 </div>
 
-@if (Model.StartDate == "-" && Model.EndDate == "-")
+@if ((Model.StartDate == "-" && Model.EndDate == "-") || (Model.StartDate == "" && Model.EndDate == ""))
 {
     <div class="form-group row">
         <label asp-for="StartDate" class="col-sm-2 col-form-label"></label>
@@ -112,12 +112,6 @@
 
 <script>
 
-    document.addEventListener('DOMContentLoaded', (event) => {
-        let startDate = document.getElementById('startDate');
-        date_today = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        startDate.setAttribute('min', date_today);
-    });
-
     const selectAll_checkbox = document.getElementById("selectAll");
 
     selectAll_checkbox.addEventListener("change", () => {
@@ -144,6 +138,16 @@
 
     submit.addEventListener("click", (e) => {
         e.preventDefault();
+        if (startDate.value == '') {
+            document.getElementById("startDateValidation").innerText = "Enter the Start Date.";
+            submit.disabled = true;
+            return;
+        }
+        else if (endDate.value == '') {
+            document.getElementById("endDateValidation").innerText = "Enter the End Date";
+            submit.disabled = true;
+            return
+        }
         let flag = confirm("Yo want to assign test to these Groups?");
         if (flag == false) {
             return;

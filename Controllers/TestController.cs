@@ -1,10 +1,14 @@
 ﻿using Exam_Portal.Models;
 using Exam_Portal.ViewModels.Group;
 using Exam_Portal.ViewModels.Tests;
+using ExcelDataReader;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -285,6 +289,88 @@ namespace Exam_Portal.Controllers
             {
                 return RedirectToAction("ViewTest", "Admin");
             }       
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddExcelQuestions(IFormFile file, [FromServices] IHostingEnvironment hostingEnvironment, [FromRoute] int id)
+        {
+            string fileName = $"{hostingEnvironment.WebRootPath}\\files\\{file.FileName}";
+            using (FileStream fileStream = System.IO.File.Create(fileName))
+            {
+                file.CopyTo(fileStream);
+                fileStream.Flush();
+            }
+
+            var test = await context.Tests.FindAsync(id);
+            int totalMarks = Convert.ToInt32(test.Marks);
+
+            var fName = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + file.FileName;
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            using (var stream = System.IO.File.Open(fName, FileMode.Open, FileAccess.Read))
+            {
+                using var reader = ExcelReaderFactory.CreateReader(stream);
+                int counter = 0;
+                while (reader.Read())
+                {
+                    if (counter == 0) { counter++; continue; } else { counter++; }
+
+                    var question = new Question();
+                    question.Question_ = reader.GetValue(0).ToString();
+                    question.Option1 = reader.GetValue(1).ToString();
+                    question.Option2 = reader.GetValue(2).ToString();
+                    question.Option3 = reader.GetValue(3).ToString();
+                    question.Option4 = reader.GetValue(4).ToString();
+                    question.Marks = Convert.ToInt32(reader.GetValue(7));
+                    question.Description = reader.GetValue(8).ToString();
+
+                    question.Tag_id = (from t in context.Tags
+                                       where t.Tag_name == reader.GetValue(6).ToString()
+                                       select t.Id).ToList()[0];
+
+                    int ans = Convert.ToInt32(reader.GetValue(5));
+                    question.Answer = ans switch
+                    {
+                        1 => question.Option1,
+                        2 => question.Option2,
+                        3 => question.Option3,
+                        4 => question.Option4,
+                        _ => "Invalid number of option Selected",
+                    };
+                    totalMarks += question.Marks;
+                    context.Questions.Add(question);
+                    context.SaveChanges();
+
+                    var testQuestion = new TestQuestion
+                    {
+                        Test_id = id,
+                        Question_id = question.Id
+                    };
+                    context.TestQuestions.Add(testQuestion);
+                    context.SaveChanges();
+                }
+            }
+            System.IO.File.Delete(fileName);
+            test.Marks = totalMarks;
+            context.Tests.Update(test);
+            context.SaveChanges();
+
+            return RedirectToAction("TestDetails", new { id });
+        }
+
+        [HttpPost]
+        public IActionResult DeleteTestQuestion(string id)
+        {
+            int splitIndex = id.IndexOf("|");
+            int testId = Convert.ToInt32(id.Substring(0, splitIndex));
+            int questionId = Convert.ToInt32(id.Substring(splitIndex+1, id.Length - (splitIndex+1)));
+
+            int testQuestionId = (from tq in context.TestQuestions
+                                  where tq.Test_id == testId && tq.Question_id == questionId
+                                  select tq.Id).ToList()[0];
+            context.TestQuestions.Remove(context.TestQuestions.Find(testQuestionId));
+            context.SaveChanges();
+
+            return RedirectToAction("TestDetails", new { id = testId });
         }
     }
 }

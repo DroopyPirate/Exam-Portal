@@ -1,89 +1,102 @@
 ﻿@model Exam_Portal.ViewModels.Tests.TestDetailsViewModel
 @{
+    Layout = "_TestLayout";
     ViewData["Title"] = "Give Test";
 }
 
-<div class="card shadow mb-4">
-    <form asp-controller="Student" asp-action="GiveTest" method="post"
-          style="float: right" class="mr-4 mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary d-inline-block" style="display: inline">@Model.Test.Title</h6>
-            <p style="display: inline; float: right;" class="m-0 font-weight-bold text-primary">Total marks - @Model.Test.Marks</p>
-        </div>
-        <div class="form-group row" hidden>
-            <div class="col-sm-12">
-                <label asp-for="@Model.Test.Id" class="col-form-label"></label>
-                <input type="text" asp-for="@Model.Test.Id" class="form-control" placeholder="">
+<nav class="navbar fixed-top navbar-light bg-secondary text-center" >
+    <div class="navbar-brand text-center w-100">Test ends in <span id="time"></span> minutes!</div>
+    
+</nav>
+    
+    <div class="card shadow mb-4">
+        <form asp-controller="Student" name="myForm" id="myForm" asp-action="GiveTest" method="post"
+              style="float: right" class="mr-4 mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary d-inline-block" style="display: inline">@Model.Test.Title</h6>
+                <p style="display: inline; float: right;" class="m-0 font-weight-bold text-primary">Total marks - @Model.Test.Marks</p>
             </div>
-        </div>
-        @{int srNo = 1;}
+            <div class="form-group row" hidden>
+                <div class="col-sm-12">
+                    <label asp-for="@Model.Test.Id" class="col-form-label"></label>
+                    <input type="text" asp-for="@Model.Test.Id" class="form-control" placeholder="">
+                </div>
+            </div>
+            <div class="form-group row" hidden>
+                <div class="col-sm-12">
+                    <label asp-for="@Model.Test.Duration" class="col-form-label"></label>
+                    <input type="text" asp-for="@Model.Test.Duration" id="duration" class="form-control" placeholder="">
+                </div>
+            </div>
+            @{int srNo = 1;}
 
-        @for(int i = 0; i < Model.Questions.Count; i++)
-        {
+            @for (int i = 0; i < Model.Questions.Count; i++)
+            {
 
-            <div class="card-body">
-                <div class="questions" @*style="overflow-y:auto;"*@>
-                    @*<div class="form-group row">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                    </div>*@
-                    <div class="card shadow">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary" style="display: inline">Question No. @srNo</h6>
-                            <p style="display: inline; float: right;" class="m-0 font-weight-bold text-primary">@Model.Questions[i].Marks marks</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <div class="col-sm-12">
-                                    <label asp-for="@Model.Questions[i].Question_" class="col-form-label"></label>
-                                    <input type="text" asp-for="@Model.Questions[i].Question_" class="form-control" placeholder="" disabled>
-                                </div>
+                <div class="card-body">
+                    <div class="questions" @*style="overflow-y:auto;"*@>
+                        @*<div class="form-group row">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                            </div>*@
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary" style="display: inline">Question No. @srNo</h6>
+                                <p style="display: inline; float: right;" class="m-0 font-weight-bold text-primary">@Model.Questions[i].Marks marks</p>
                             </div>
-
-                            <div class="form-group row" hidden>
-                                <div class="col-sm-12">
-                                    <label asp-for="@Model.Questions[i].Id" class="col-form-label"></label>
-                                    <input type="text" asp-for="@Model.Questions[i].Id" class="form-control" placeholder="">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <label asp-for="@Model.Questions[i].Question_" class="col-form-label"></label>
+                                        <input type="text" asp-for="@Model.Questions[i].Question_" class="form-control" placeholder="" disabled>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                                    <div class="form-group row">
-                                        <div class="col-sm-12">
-                                            <input type="radio" asp-for="@Model.Questions[i].Answer" value="0">
-                                            <label asp-for="@Model.Questions[i].Option1" class="col-form-label"></label>
-                                            <input type="text" asp-for="@Model.Questions[i].Option1" class="form-control" placeholder="" disabled>
+                                <div class="form-group row" hidden>
+                                    <div class="col-sm-12">
+                                        <label asp-for="@Model.Questions[i].Id" class="col-form-label"></label>
+                                        <input type="text" asp-for="@Model.Questions[i].Id" class="form-control" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <input type="radio" asp-for="@Model.Questions[i].Answer" value="0">
+                                                <label asp-for="@Model.Questions[i].Option1" class="col-form-label"></label>
+                                                <input type="text" asp-for="@Model.Questions[i].Option1" class="form-control" placeholder="" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <input type="radio" asp-for="@Model.Questions[i].Answer" value="1">
+                                                <label asp-for="@Model.Questions[i].Option2" class="col-form-label"></label>
+                                                <input type="text" asp-for="@Model.Questions[i].Option2" class="form-control" placeholder="" disabled>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                                    <div class="form-group row">
-                                        <div class="col-sm-12">
-                                            <input type="radio" asp-for="@Model.Questions[i].Answer" value="1">
-                                            <label asp-for="@Model.Questions[i].Option2" class="col-form-label"></label>
-                                            <input type="text" asp-for="@Model.Questions[i].Option2" class="form-control" placeholder="" disabled>
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <input type="radio" asp-for="@Model.Questions[i].Answer" value="2">
+                                                <label asp-for="@Model.Questions[i].Option3" class="col-form-label"></label>
+                                                <input type="text" asp-for="@Model.Questions[i].Option3" class="form-control" placeholder="" disabled>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                                    <div class="form-group row">
-                                        <div class="col-sm-12">
-                                            <input type="radio" asp-for="@Model.Questions[i].Answer" value="2" >
-                                            <label asp-for="@Model.Questions[i].Option3" class="col-form-label"></label>
-                                            <input type="text" asp-for="@Model.Questions[i].Option3" class="form-control" placeholder="" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                                    <div class="form-group row">
-                                        <div class="col-sm-12">
-                                            <input type="radio" asp-for="@Model.Questions[i].Answer" value="3">
-                                            <label asp-for="@Model.Questions[i].Option4 class="col-form-label"></label>
-                                            <input type="text" asp-for="@Model.Questions[i].Option4" class="form-control" placeholder="" disabled>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <input type="radio" asp-for="@Model.Questions[i].Answer" value="3">
+                                                <label asp-for="@Model.Questions[i].Option4 class=" col-form-label"></label>
+                                                <input type="text" asp-for="@Model.Questions[i].Option4" class="form-control" placeholder="" disabled>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -91,13 +104,53 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            srNo++;
+                srNo++;
+            }
+
+            <button type="submit" style="float: right" class="d-none d-sm-inline-block btn btn-sm btn-primary mr-4 mb-4 shadow-sm"
+                    id="SubmitTest">
+                Submit
+            </button>
+        </form>
+    </div>
+
+    <script>
+
+        function startTimer(duration, display) {
+            var timer = duration, hours, minutes, seconds;
+            var interval = setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+
+                if (timer-- == 0) {
+                    console.log("Submit kar Gandu.");
+                    alert("Time has finished. Your Test has been submited.");
+                    document.forms["myForm"].submit();
+                    clearInterval(interval);
+                }
+            }, 1000);
         }
 
-        <button type="submit" style="float: right" class="d-none d-sm-inline-block btn btn-sm btn-primary mr-4 mb-4 shadow-sm"
-                id="SubmitTest">
-            Submit
-        </button>
-    </form>
-</div> 
+        window.onload = function () {
+            let inputDuration = document.getElementById("duration");
+            let duration = inputDuration.value;
+            console.log(duration);
+            duration = "00:00:30";
+            let hours = parseInt(duration.slice(0, 2));
+            let minutes = parseInt(duration.slice(3, 5));
+            let seconds = parseInt(duration.slice(6, 8));
+            let totalTime = (hours * 60 * 60) + (minutes * 60) + (seconds);
+            console.log(totalTime);
+
+            let display = document.querySelector('#time');
+            startTimer(totalTime, display);
+        };
+
+    </script>

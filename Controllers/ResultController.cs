@@ -52,6 +52,7 @@ namespace Exam_Portal.Controllers
                 {
                     var user = context.ApplicationUser.Find(userId);
                     var userResult = new UserResult();
+                    userResult.userID = userId;
                     userResult.FullName = user.Name + " " + user.MiddleName + " " + user.LastName;
                     userResult.Division = user.Division;
                     userResult.Semester = user.Semester;
@@ -71,6 +72,63 @@ namespace Exam_Portal.Controllers
                     }
                     model.UserResults.Add(userResult);
                 }
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ViewResult(string id)
+        {
+            int splitIndex = id.IndexOf('|');
+            int length = id.Length;
+            int testID = Convert.ToInt32(id.Substring(0, splitIndex));
+            int userId = Convert.ToInt32(id.Substring((splitIndex+1), (length-splitIndex-1)));
+
+            //int testID = Convert.ToInt32(id);
+            var model = new ViewResultViewModel();
+            //int userId = Convert.ToInt32(userManager.GetUserId(HttpContext.User)); //get user Id
+            model.Tests = context.Tests.Find(testID);  // get Test user appeared
+            model.Tests.TestType = context.TestTypes.Find(model.Tests.Type_id); //get testType of test
+
+            var totalResult = (from tr in context.TotalResults
+                               where tr.User_id == userId && tr.Test_id == testID
+                               select tr).ToList();  // get result of test that user appeared.
+            if (totalResult.Count == 0)  // check if user has given the test
+            {
+                model.TestGiven = false;  // Test not given yet
+                return View(model);
+            }
+            else
+            {
+                model.TestGiven = true;   // Test given
+                model.TotalResult = totalResult[0];
+            }
+
+            model.Tests.TestQuestions = (from tq in context.TestQuestions
+                                         where tq.Test_id == model.Tests.Id
+
+                                         select tq).ToList(); // get all testQuestion so we can get all Questions of test
+
+            foreach (var tq in model.Tests.TestQuestions)
+            {
+                var question = context.Questions.Find(tq.Question_id); // get all questions of test
+                var questionResult = (from qr in context.QuestionResults
+                                      where qr.User_id == userId && qr.TestQuestions_id == tq.Id
+                                      select qr).ToList()[0]; //get questionResult if it matches userId and testQuestion_id
+                var stdQuestionResult = new StudentQuestionResult
+                {
+                    Question_ = question.Question_,
+                    Option1 = question.Option1,
+                    Option2 = question.Option2,
+                    Option3 = question.Option3,
+                    Option4 = question.Option4,
+                    Answer = question.Answer,
+                    User_answer = questionResult.User_answer,
+                    Marks = question.Marks,
+                    Obtained_Marks = questionResult.Marks
+                };
+                model.StudentQuestionResults.Add(stdQuestionResult);
             }
 
             return View(model);
