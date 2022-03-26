@@ -308,18 +308,18 @@ namespace Exam_Portal.Controllers
 
             // Remove tests that are not started yet.
             var currentDate = DateTime.Now;
-            List<int> removeList = new();
+            List<Test> removeList = new();
             foreach (var t in tests)
             {
                 var startDate = Convert.ToDateTime(t.StartDate);
                 if (startDate > currentDate)
                 {
-                    removeList.Add(tests.IndexOf(t));
+                    removeList.Add(t);
                 }
             }
-            foreach (var i in removeList)
+            foreach (var t in removeList)
             {
-                tests.RemoveAt(i);
+                tests.Remove(t);
             }
 
             string Creator = "";

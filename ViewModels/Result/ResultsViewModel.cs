@@ -20,6 +20,7 @@ namespace Exam_Portal.ViewModels.Result
 
     public class UserResult
     {
+        public int userID { get; set; }
         public string FullName { get; set; }
         public string Division { get; set; }
         public int Semester { get; set; }
