@@ -30,6 +30,9 @@ The Exam Portal provides a comprehensive platform for educators to manage exams 
 - **Mock Tests for Practice:**  
   Recognizing the importance of practice in exam preparation, the system also allows educators to create and assign mock tests. This feature helps students familiarize themselves with the exam format and content, thereby reducing exam anxiety and improving overall performance.
 
+- **Email Notification Service:**  
+  We implemented a service to send emails to educators and students for specific events such as Test Creation, Reminders, and Result notifications. This service leverages MimeKit to ensure robust and reliable email communication.
+
 ---
 
 ## Technical Context
